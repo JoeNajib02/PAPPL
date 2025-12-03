@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>D:\raw2\ouster-pcap-manipulator\build-win\x64\Debug\ZERO_CHECK</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\x64\Debug\ouster_generate_header</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\raw2\ouster-pcap-manipulator\build-win\x64\Debug\ouster_generate_header</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\raw2\ouster-pcap-manipulator\build-win\Debug\pcap_gui.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>

@@ -1,0 +1,10 @@
+^D:\RAW2\OUSTER-PCAP-MANIPULATOR\BUILD-WIN\CMAKEFILES\B2F66396D8C1FAFE119B70FC3E48612E\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/raw2/ouster-pcap-manipulator -BD:/raw2/ouster-pcap-manipulator/build-win --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/raw2/ouster-pcap-manipulator/build-win/ouster-pcap-manipulator.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

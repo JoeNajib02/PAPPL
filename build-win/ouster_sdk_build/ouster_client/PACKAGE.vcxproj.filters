@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\raw2\ouster-pcap-manipulator\build-win\CMakeFiles\9f8d14088bd535309a3fb37572909dca\PACKAGE_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{D4E14B8E-C6FA-3F1C-9252-F00CBD19B8E3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

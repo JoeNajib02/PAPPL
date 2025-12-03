@@ -1,0 +1,52 @@
+[
+  {
+    "label": "baseline",
+    "frames_used": 1,
+    "samples": 646,
+    "mean_range_mm": 6627.3,
+    "std_range_mm": 6383.35,
+    "mean_abs_dev_mm": 3891.15,
+    "frame_mean_std_mm": 0,
+    "valid_ratio": 0.630859
+  },
+  {
+    "label": "staged_outlier_ema_planarity",
+    "frames_used": 1,
+    "samples": 600,
+    "mean_range_mm": 4977.81,
+    "std_range_mm": 982.387,
+    "mean_abs_dev_mm": 709.398,
+    "frame_mean_std_mm": 0,
+    "valid_ratio": 0.585938
+  },
+  {
+    "label": "temporal_median",
+    "frames_used": 1,
+    "samples": 646,
+    "mean_range_mm": 6627.3,
+    "std_range_mm": 6383.35,
+    "mean_abs_dev_mm": 3891.15,
+    "frame_mean_std_mm": 0,
+    "valid_ratio": 0.630859
+  },
+  {
+    "label": "kalman",
+    "frames_used": 1,
+    "samples": 646,
+    "mean_range_mm": 6627.3,
+    "std_range_mm": 6383.35,
+    "mean_abs_dev_mm": 3891.15,
+    "frame_mean_std_mm": 0,
+    "valid_ratio": 0.630859
+  },
+  {
+    "label": "huber",
+    "frames_used": 1,
+    "samples": 646,
+    "mean_range_mm": 6613.41,
+    "std_range_mm": 6360.05,
+    "mean_abs_dev_mm": 3875.31,
+    "frame_mean_std_mm": 0,
+    "valid_ratio": 0.630859
+  }
+]

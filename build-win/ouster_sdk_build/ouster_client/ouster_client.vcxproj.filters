@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_client\ouster_client_autogen\mocs_compilation_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\types.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\sensor_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\lidar_scan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\image_processing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\parsing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\packet_source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\compat_ops.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\logging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\field.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\profile_extension.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\metadata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\packet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\open_source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\scan_source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\scan_source_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\io_type.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\transform_quaternion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\transform_vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\transform_homogeneous.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\pose_util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\pose_conversion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\cloud_io.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-sdk\ouster_client\src\error_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_client\ouster_client_autogen\mocs_compilation_Release.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_client\ouster_client_autogen\mocs_compilation_MinSizeRel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_client\ouster_client_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\raw2\ouster-sdk\ouster_client\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{379528C9-A6A1-3D8D-8010-C0547EE3AF15}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

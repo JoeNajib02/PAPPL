@@ -1,0 +1,8 @@
+D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor_autogen\mocs_compilation_Debug.cpp;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor.dir\Debug\mocs_compilation_Debug.obj
+D:\raw2\ouster-sdk\ouster_sensor\src\client.cpp;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor.dir\Debug\client.obj
+D:\raw2\ouster-sdk\ouster_sensor\src\netcompat.cpp;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor.dir\Debug\netcompat.obj
+D:\raw2\ouster-sdk\ouster_sensor\src\sensor_packet_source.cpp;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor.dir\Debug\sensor_packet_source.obj
+D:\raw2\ouster-sdk\ouster_sensor\src\sensor_http.cpp;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor.dir\Debug\sensor_http.obj
+D:\raw2\ouster-sdk\ouster_sensor\src\sensor_http_imp.cpp;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor.dir\Debug\sensor_http_imp.obj
+D:\raw2\ouster-sdk\ouster_sensor\src\sensor_scan_source.cpp;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor.dir\Debug\sensor_scan_source.obj
+D:\raw2\ouster-sdk\ouster_sensor\src\sensor_tcp_imp.cpp;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_sensor\ouster_sensor.dir\Debug\sensor_tcp_imp.obj

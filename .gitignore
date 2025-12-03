@@ -1,0 +1,37 @@
+# Build artifacts
+build/
+install/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.lib
+
+# CMake
+CMakeCache.txt
+CMakeLists.txt.user
+CMakeFiles/
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+compile_commands.json
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Output files
+*.csv
+*.pcd
+*.pcap.out
+output/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
