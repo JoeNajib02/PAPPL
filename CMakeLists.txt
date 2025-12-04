@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 project(ouster-pcap-manipulator VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -217,18 +217,34 @@ message(STATUS "[PCAP Manipulator] Found Eigen3")
 # Configuration: Build ouster-sdk from raw source or installed package
 # ============================================================================
 option(OUSTER_USE_INSTALLED_SDK "Use installed OusterSDK via find_package" OFF)
-set(OUSTER_SDK_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/../ouster-sdk" CACHE PATH "Path to ouster-sdk source")
+option(OUSTER_SDK_FETCH "Automatically fetch OusterSDK into the tree when not found" ON)
+set(OUSTER_SDK_GIT_TAG "64a6cbe6dff1eea0cb5a79d63b79acf11b68b16d" CACHE STRING "Git tag or commit for OusterSDK when auto-fetching")
+set(OUSTER_SDK_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/external/ouster-sdk" CACHE PATH "Path to ouster-sdk source")
 
 if(OUSTER_USE_INSTALLED_SDK)
     find_package(OusterSDK REQUIRED)
     message(STATUS "[PCAP Manipulator] Using installed OusterSDK package")
 else()
-    if(NOT EXISTS "${OUSTER_SDK_SOURCE}")
-        message(FATAL_ERROR 
-            "[PCAP Manipulator] OusterSDK source directory not found at: ${OUSTER_SDK_SOURCE}")
+    if(EXISTS "${OUSTER_SDK_SOURCE}/CMakeLists.txt")
+        add_subdirectory("${OUSTER_SDK_SOURCE}" "${CMAKE_BINARY_DIR}/ouster_sdk_build")
+        set(OUSTER_SDK_DIR "${CMAKE_BINARY_DIR}/ouster_sdk_build")
+        message(STATUS "[PCAP Manipulator] Using local OusterSDK source: ${OUSTER_SDK_SOURCE}")
+    elseif(OUSTER_SDK_FETCH)
+        include(FetchContent)
+        set(FETCHCONTENT_UPDATES_DISCONNECTED TRUE)
+        FetchContent_Declare(
+            ouster_sdk
+            GIT_REPOSITORY https://github.com/ouster-lidar/ouster-sdk.git
+            GIT_TAG        ${OUSTER_SDK_GIT_TAG}
+            SOURCE_DIR     "${OUSTER_SDK_SOURCE}"
+        )
+        FetchContent_MakeAvailable(ouster_sdk)
+        set(OUSTER_SDK_DIR "${ouster_sdk_BINARY_DIR}")
+        message(STATUS "[PCAP Manipulator] Fetched OusterSDK: ${ouster_sdk_SOURCE_DIR} @ ${OUSTER_SDK_GIT_TAG}")
     endif()
-    add_subdirectory("${OUSTER_SDK_SOURCE}" "${CMAKE_BINARY_DIR}/ouster_sdk_build")
-message(STATUS "[PCAP Manipulator] Building OusterSDK from source: ${OUSTER_SDK_SOURCE}")
+    if(NOT TARGET ouster_client)
+        message(FATAL_ERROR "[PCAP Manipulator] OusterSDK source not available. Set OUSTER_SDK_SOURCE or enable OUSTER_SDK_FETCH.")
+    endif()
 endif()
 
 # Report libs after all resolution
@@ -349,9 +365,9 @@ target_link_libraries(pcap_gui
         ouster_sensor
         ${PCAP_LIBRARIES}
         tins
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
+        ${QT_PACKAGE_PREFIX}::Core
+        ${QT_PACKAGE_PREFIX}::Gui
+        ${QT_PACKAGE_PREFIX}::Widgets
 )
 
 message(STATUS "[PCAP Manipulator] GUI target configured")
@@ -394,3 +410,10 @@ message(STATUS "  Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  OusterSDK Dir: ${OUSTER_SDK_DIR}")
 message(STATUS "  Targets: pcap_manipulation_example, pcap_gui")
 message(STATUS "")
+
+# ============================================================================
+# Packaging
+# ============================================================================
+set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+include(CPack)

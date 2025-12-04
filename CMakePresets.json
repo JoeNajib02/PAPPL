@@ -1,0 +1,93 @@
+{
+  "version": 5,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 14,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base-release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "OUSTER_USE_INSTALLED_SDK": "OFF",
+        "OUSTER_SDK_FETCH": "ON",
+        "OUSTER_SDK_SOURCE": "${sourceDir}/external/ouster-sdk"
+      }
+    },
+    {
+      "name": "mac-release-arm64",
+      "displayName": "macOS Release (arm64, Makefiles + vcpkg)",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/mac-release-arm64",
+      "inherits": "base-release",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "arm64-osx"
+      }
+    },
+    {
+      "name": "mac-release-x64",
+      "displayName": "macOS Release (x64, Makefiles + vcpkg)",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/mac-release-x64",
+      "inherits": "base-release",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-osx"
+      }
+    },
+    {
+      "name": "win-release",
+      "displayName": "Windows Release (VS 2022 + vcpkg)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/win-release",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "OUSTER_USE_INSTALLED_SDK": "OFF",
+        "OUSTER_SDK_FETCH": "ON",
+        "OUSTER_SDK_SOURCE": "${sourceDir}/external/ouster-sdk"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "mac-release-arm64",
+      "configurePreset": "mac-release-arm64"
+    },
+    {
+      "name": "mac-release-x64",
+      "configurePreset": "mac-release-x64"
+    },
+    {
+      "name": "win-release",
+      "configurePreset": "win-release"
+    },
+    {
+      "name": "mac-release-arm64-package",
+      "displayName": "macOS Release (arm64) + cpack",
+      "configurePreset": "mac-release-arm64",
+      "targets": [
+        "package"
+      ]
+    },
+    {
+      "name": "mac-release-x64-package",
+      "displayName": "macOS Release (x64) + cpack",
+      "configurePreset": "mac-release-x64",
+      "targets": [
+        "package"
+      ]
+    },
+    {
+      "name": "win-release-package",
+      "displayName": "Windows Release + cpack",
+      "configurePreset": "win-release",
+      "targets": [
+        "PACKAGE"
+      ]
+    }
+  ]
+}
