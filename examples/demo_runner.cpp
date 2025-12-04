@@ -416,19 +416,12 @@ void RepeatabilityDemo::run() {
 
     RepeatabilityPipeline staged(info);
     staged.add_filter(std::make_unique<StatisticalOutlierFilter>(2.5, 1500));
-    staged.add_filter(std::make_unique<ExponentialSmootherFilter>(0.35));
     staged.add_filter(std::make_unique<PlanaritySmoother>(1, 150, 0.6));
+    staged.add_filter(std::make_unique<NormalGuidedSmoother>(12.0, 0.6));
     auto staged_result = staged.run(scans);
     auto staged_metrics = RepeatabilityAnalyzer::compute_global_range_metrics(
         staged_result, info, metric_opts);
-    print_metrics("staged: outlier -> ema -> planarity", staged_metrics);
-
-    RepeatabilityPipeline median_only(info);
-    median_only.add_filter(std::make_unique<MedianTemporalFilter>(1));
-    auto median_result = median_only.run(scans);
-    auto median_metrics = RepeatabilityAnalyzer::compute_global_range_metrics(
-        median_result, info, metric_opts);
-    print_metrics("temporal median (radius=1)", median_metrics);
+    print_metrics("staged: outlier -> planarity -> normals", staged_metrics);
 
     RepeatabilityPipeline kalman(info);
     kalman.add_filter(std::make_unique<KalmanRangeFilter>(400.0, 2500.0));
@@ -437,19 +430,10 @@ void RepeatabilityDemo::run() {
         kalman_result, info, metric_opts);
     print_metrics("kalman (per-pixel)", kalman_metrics);
 
-    RepeatabilityPipeline huber(info);
-    huber.add_filter(std::make_unique<HuberSmootherFilter>(1, 1, 500.0, 0.6));
-    auto huber_result = huber.run(scans);
-    auto huber_metrics = RepeatabilityAnalyzer::compute_global_range_metrics(
-        huber_result, info, metric_opts);
-    print_metrics("huber smoother", huber_metrics);
-
     std::vector<std::pair<std::string, RepeatabilityMetrics>> rows = {
         {"baseline", baseline_metrics},
-        {"staged_outlier_ema_planarity", staged_metrics},
-        {"temporal_median", median_metrics},
-        {"kalman", kalman_metrics},
-        {"huber", huber_metrics}};
+        {"staged_outlier_planarity_normals", staged_metrics},
+        {"kalman", kalman_metrics}};
     RepeatabilityReportWriter::write_csv("repeatability_report.csv", rows);
     RepeatabilityReportWriter::write_json("repeatability_report.json", rows);
 

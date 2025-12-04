@@ -7,6 +7,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+if(WIN32)
+    add_compile_definitions(NOMINMAX WIN32_LEAN_AND_MEAN _USE_MATH_DEFINES)
+endif()
+
 # ============================================================================
 # Find Qt5/Qt6 (desktop widgets)
 # ============================================================================
@@ -240,13 +244,28 @@ message(STATUS "[PCAP Manipulator] Found libtins")
 # PCAP Manipulator Library Target
 # ============================================================================
 
-if(WIN32)
-    set(REPEATABILITY_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/repeatability_filters.cpp)
-    set(REPEATABILITY_HDR ${CMAKE_CURRENT_SOURCE_DIR}/src/repeatability_filters.h)
-else()
-    set(REPEATABILITY_SRC src/repeatability_filters.cpp)
-    set(REPEATABILITY_HDR src/repeatability_filters.h)
-endif()
+set(REPEATABILITY_SRC
+    src/repeatability/pipeline.cpp
+    src/repeatability/repeatability_metrics.cpp
+    src/repeatability/report_writer.cpp
+    src/repeatability/statistical_outlier_filter.cpp
+    src/repeatability/planarity_smoother.cpp
+    src/repeatability/kalman_range_filter.cpp
+    src/repeatability/normal_guided_smoother.cpp
+)
+
+set(REPEATABILITY_HDR
+    src/repeatability_filters.h
+    src/repeatability/filter_base.h
+    src/repeatability/filter_utils.h
+    src/repeatability/pipeline.h
+    src/repeatability/repeatability_metrics.h
+    src/repeatability/report_writer.h
+    src/repeatability/statistical_outlier_filter.h
+    src/repeatability/planarity_smoother.h
+    src/repeatability/kalman_range_filter.h
+    src/repeatability/normal_guided_smoother.h
+)
 
 add_library(pcap_data_manipulator STATIC
     src/pcap_data_manipulator.cpp
@@ -287,21 +306,6 @@ add_executable(pcap_manipulation_example
 
 # Link to the manipulator library and system dependencies
 target_link_libraries(pcap_manipulation_example
-    PRIVATE
-        pcap_data_manipulator
-        Eigen3::Eigen
-        ouster_client
-        ouster_pcap
-        ouster_sensor
-        ${PCAP_LIBRARIES}
-        tins
-)
-
-add_executable(test_all_classes
-    examples/test_all_classes.cpp
-)
-
-target_link_libraries(test_all_classes
     PRIVATE
         pcap_data_manipulator
         Eigen3::Eigen

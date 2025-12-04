@@ -11,6 +11,7 @@
 #include <functional>
 #include <cstdint>
 #include <cmath>
+#include <limits>
 
 #include <Eigen/Core>
 
@@ -26,7 +27,10 @@ struct XYZPoint {
     double x_;
     double y_;
     double z_;
-    XYZPoint() : x_(NAN), y_(NAN), z_(NAN) {}
+    XYZPoint()
+        : x_(std::numeric_limits<double>::quiet_NaN()),
+          y_(std::numeric_limits<double>::quiet_NaN()),
+          z_(std::numeric_limits<double>::quiet_NaN()) {}
     XYZPoint(double x, double y, double z) : x_(x), y_(y), z_(z) {}
     double x() const { return x_; }
     double y() const { return y_; }

@@ -187,8 +187,8 @@ MeanResults compute_means(const std::vector<LidarScan>& scans,
 RepeatabilityPipeline make_default_pipeline(const sensor::sensor_info& info) {
     RepeatabilityPipeline pipeline(info);
     pipeline.add_filter(std::make_unique<StatisticalOutlierFilter>(2.5, 1500));
-    pipeline.add_filter(std::make_unique<ExponentialSmootherFilter>(0.35));
     pipeline.add_filter(std::make_unique<PlanaritySmoother>(1, 150, 0.6));
+    pipeline.add_filter(std::make_unique<NormalGuidedSmoother>(12.0, 0.6));
     return pipeline;
 }
 
