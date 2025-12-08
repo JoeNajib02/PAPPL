@@ -331,6 +331,25 @@ target_link_libraries(compare_point_repeatability
         tins
 )
 
+add_executable(repeatability_single
+    examples/repeatability_single.cpp
+)
+
+target_link_libraries(repeatability_single
+    PRIVATE
+        pcap_data_manipulator
+        Eigen3::Eigen
+        ouster_client
+        ouster_pcap
+        ouster_sensor
+        ${PCAP_LIBRARIES}
+        tins
+)
+
+add_executable(compute_rail_targets
+    tools/compute_rail_targets.cpp
+)
+
 message(STATUS "[PCAP Manipulator] Library target configured")
 
 # ============================================================================

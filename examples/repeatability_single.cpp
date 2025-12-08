@@ -1,12 +1,12 @@
 /**
- * Compare 10 keyed rail points across multiple acquisitions, before/after
- * filtering, and write a CSV ready for plotting.
+ * Compare one candidate PCAP against a reference PCAP at keyed target points.
+ * Applies the default repeatability filters, prints summary stats, and writes
+ * a CSV with per-point data for the candidate (raw + filtered) versus reference.
  *
  * Usage:
- *   compare_point_repeatability <metadata.json> <targets.csv> <output.csv>
- *                                <pcap_ref> <pcap_other...>
- *                                [--grid-res-m=0.02] [--max-scans=5]
- *                                [--no-append]
+ *   repeatability_single <metadata.json> <targets.csv> <output.csv>
+ *                        <pcap_ref> <pcap_candidate>
+ *                        [--grid-res-m=0.02] [--max-scans=5]
  *
  * - targets.csv: rows of "id,x,y" or "x,y" (meters, sensor frame). Lines
  *   starting with '#' are ignored. If no id is provided, the row index is used.
@@ -16,7 +16,6 @@
  * - max-scans limits how many scans per PCAP are averaged (0 = all).
  */
 
-#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
@@ -259,15 +258,13 @@ bool write_csv(const std::string& out_path,
                const std::vector<TargetPoint>& targets,
                const std::vector<AcquisitionResult>& results,
                bool append_mode) {
-    if (results.empty()) return false;
+    if (results.size() < 2) return false;  // need ref + candidate
     const auto& ref = results.front().raw;
 
     bool write_header = true;
     if (append_mode) {
         std::ifstream existing(out_path, std::ios::binary | std::ios::ate);
-        if (existing && existing.tellg() > 0) {
-            write_header = false;
-        }
+        if (existing && existing.tellg() > 0) write_header = false;
     }
 
     std::ofstream ofs(out_path, append_mode ? std::ios::app : std::ios::trunc);
@@ -280,7 +277,9 @@ bool write_csv(const std::string& out_path,
     }
     ofs << std::fixed << std::setprecision(6);
 
-    for (const auto& res : results) {
+    // Only write candidate rows (skip ref rows).
+    for (size_t r = 1; r < results.size(); ++r) {
+        const auto& res = results[r];
         for (size_t i = 0; i < targets.size(); ++i) {
             const bool ref_missing =
                 i >= ref.counts.size() || ref.counts[i] == 0 ||
@@ -311,10 +310,9 @@ bool write_csv(const std::string& out_path,
                     ? std::numeric_limits<double>::quiet_NaN()
                     : (z_filt - z_ref);
 
-            ofs << res.label << "," << targets[i].id << ","
-                << targets[i].x << "," << targets[i].y << ","
-                << z_ref << "," << z_raw << "," << z_filt << ","
-                << dz_raw << "," << dz_filt << ","
+            ofs << res.label << "," << targets[i].id << "," << targets[i].x << ","
+                << targets[i].y << "," << z_ref << "," << z_raw << "," << z_filt
+                << "," << dz_raw << "," << dz_filt << ","
                 << (raw_missing ? 1 : 0) << ","
                 << (filt_missing ? 1 : 0) << ","
                 << (i < res.raw.counts.size() ? res.raw.counts[i] : 0) << ","
@@ -325,39 +323,18 @@ bool write_csv(const std::string& out_path,
     return true;
 }
 
-void print_summary(const std::vector<AcquisitionResult>& results) {
-    if (results.empty()) return;
-    const auto& ref = results.front();
-    std::cout << "Reference: " << ref.label
-              << " (frames used: " << ref.raw.frames_used << ")\n";
-    for (size_t i = 0; i < results.size(); ++i) {
-        if (i == 0) continue;
-        const auto& res = results[i];
-        const auto raw_stats = compute_error_stats(ref.raw, res.raw);
-        const auto filt_stats = compute_error_stats(ref.raw, res.filt);
-        std::cout << "  " << res.label << " -> raw mean|max |dz| = "
-                  << raw_stats.mean_abs_m * 1000.0 << " mm / "
-                  << raw_stats.max_abs_m * 1000.0 << " mm"
-                  << " (samples " << raw_stats.count << ")\n"
-                  << "                  filt mean|max |dz| = "
-                  << filt_stats.mean_abs_m * 1000.0 << " mm / "
-                  << filt_stats.max_abs_m * 1000.0 << " mm"
-                  << " (samples " << filt_stats.count << ")\n";
-    }
-}
-
 void print_usage() {
     std::cout
         << "Usage:\n"
-        << "  compare_point_repeatability <metadata.json> <targets.csv> "
-           "<output.csv> <pcap_ref> <pcap_other...> "
-           "[--grid-res-m=0.02] [--max-scans=5] [--no-append]\n";
+        << "  repeatability_single <metadata.json> <targets.csv> <output.csv> "
+           "<pcap_ref> <pcap_candidate> "
+           "[--grid-res-m=0.02] [--max-scans=5]\n";
 }
 
 }  // namespace
 
 int main(int argc, char* argv[]) {
-    if (argc < 5) {
+    if (argc < 6) {
         print_usage();
         return EXIT_FAILURE;
     }
@@ -368,7 +345,6 @@ int main(int argc, char* argv[]) {
 
     double grid_res_m = 0.02;  // snap (x,y) to 2 cm grid
     size_t max_scans = 5;      // average over first N scans; 0 = all
-    bool append_mode = true;   // append to existing output by default
     std::vector<std::string> pcaps;
     for (int i = 4; i < argc; ++i) {
         std::string arg = argv[i];
@@ -377,14 +353,13 @@ int main(int argc, char* argv[]) {
         } else if (arg.rfind("--max-scans=", 0) == 0) {
             max_scans =
                 static_cast<size_t>(std::stoul(arg.substr(std::string("--max-scans=").size())));
-        } else if (arg == "--no-append") {
-            append_mode = false;
         } else {
             pcaps.push_back(arg);
         }
     }
 
-    if (pcaps.empty()) {
+    if (pcaps.size() < 2) {
+        std::cerr << "Need at least two PCAPs: reference and one candidate.\n";
         print_usage();
         return EXIT_FAILURE;
     }
@@ -394,6 +369,13 @@ int main(int argc, char* argv[]) {
     }
 
     try {
+        std::cout << "\n=== Repeatability (single candidate) ===\n";
+        std::cout << "Metadata: " << json_path << "\n";
+        std::cout << "Targets:  " << targets_path << "\n";
+        std::cout << "Output:   " << out_path << " (append mode)\n";
+        std::cout << "Grid:     " << grid_res_m << " m, Max scans: " << max_scans
+                  << " (0 = all)\n\n";
+
         auto targets = load_targets(targets_path, grid_res_m);
         if (targets.empty()) {
             std::cerr << "No valid targets loaded from " << targets_path << "\n";
@@ -407,23 +389,39 @@ int main(int argc, char* argv[]) {
 
         std::vector<AcquisitionResult> results;
         results.reserve(pcaps.size());
-        for (const auto& pcap : pcaps) {
+        std::cout << "Reference: " << pcaps.front() << "\n";
+        for (size_t idx = 0; idx < pcaps.size(); ++idx) {
+            const auto& pcap = pcaps[idx];
             std::cout << "Processing: " << pcap << "\n";
             results.push_back(
                 evaluate_acquisition(pcap, json_path, key_to_idx, grid_res_m,
                                      max_scans));
         }
 
-        if (!write_csv(out_path, targets, results, append_mode)) {
+        if (!write_csv(out_path, targets, results, /*append_mode=*/true)) {
             std::cerr << "Failed to write CSV: " << out_path << "\n";
             return EXIT_FAILURE;
         }
 
-        std::cout << (append_mode ? "Appended" : "Wrote")
-                  << " per-point CSV to " << out_path
+        const auto& ref = results.front();
+        const auto& candidate = results.back();
+        const auto raw_stats = compute_error_stats(ref.raw, candidate.raw);
+        const auto filt_stats = compute_error_stats(ref.raw, candidate.filt);
+        std::cout << "Reference: " << ref.label
+                  << " (frames used: " << ref.raw.frames_used << ")\n";
+        std::cout << "  " << candidate.label << " -> raw mean|max |dz| = "
+                  << raw_stats.mean_abs_m * 1000.0 << " mm / "
+                  << raw_stats.max_abs_m * 1000.0 << " mm"
+                  << " (samples " << raw_stats.count << ")\n"
+                  << "                  filt mean|max |dz| = "
+                  << filt_stats.mean_abs_m * 1000.0 << " mm / "
+                  << filt_stats.max_abs_m * 1000.0 << " mm"
+                  << " (samples " << filt_stats.count << ")\n";
+
+        std::cout << "Appended per-point CSV to " << out_path
                   << " (grid=" << grid_res_m << " m, frames="
                   << results.front().raw.frames_used << " per acquisition)\n";
-        print_summary(results);
+        std::cout << "\n=== Repeatability completed successfully ===\n";
     } catch (const std::exception& ex) {
         std::cerr << "Error: " << ex.what() << "\n";
         return EXIT_FAILURE;

@@ -3,9 +3,6 @@
   <PropertyGroup>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
-  <PropertyGroup>
-    <ResolveNugetPackages>false</ResolveNugetPackages>
-  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -25,31 +22,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E3EB41F4-A45C-387F-8E71-72F61FF20692}</ProjectGuid>
+    <ProjectGuid>{3806E3BB-16C3-30F7-A074-626B7184D966}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <VcpkgEnabled>false</VcpkgEnabled>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
-    <ProjectName>ALL_BUILD</ProjectName>
+    <ProjectName>repeatability_single</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Utility</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Utility</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
-    <ConfigurationType>Utility</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
-    <ConfigurationType>Utility</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
@@ -57,55 +55,389 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="do_not_import_user.props" Condition="exists('do_not_import_user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\raw2\ouster-pcap-manipulator\build-win\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">repeatability_single.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">repeatability_single</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\raw2\ouster-pcap-manipulator\build-win\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">repeatability_single.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">repeatability_single</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\raw2\ouster-pcap-manipulator\build-win\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">repeatability_single.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">repeatability_single</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\raw2\ouster-pcap-manipulator\build-win\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">repeatability_single.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">repeatability_single</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/classic-vcpkg/installed/x64-windows/include/eigen3" /external:I "D:/raw2/ouster-sdk/ouster_client/include/optional-lite" /external:I "D:/classic-vcpkg/installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC and UIC for target repeatability_single</Message>
+      <Command>setlocal
+cd D:\raw2\ouster-pcap-manipulator\build-win
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/repeatability_single_autogen.dir/AutogenInfo.json Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/Debug/repeatability_single.exe -installedDir D:/classic-vcpkg/installed/x64-windows/debug/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>Debug\pcap_data_manipulator.lib;ouster_sdk_build\ouster_client\Debug\ouster_client.lib;ouster_sdk_build\ouster_pcap\Debug\ouster_pcap.lib;ouster_sdk_build\ouster_sensor\Debug\ouster_sensor.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\pcap.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\pcap.lib;ouster_sdk_build\ouster_client\Debug\ouster_client.lib;ws2_32.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\libcurl-d.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\tins.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\pcap.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\libssl.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\libcrypto.lib;Ws2_32.lib;Iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/Debug/repeatability_single.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/Debug/repeatability_single.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/classic-vcpkg/installed/x64-windows/include/eigen3" /external:I "D:/raw2/ouster-sdk/ouster_client/include/optional-lite" /external:I "D:/classic-vcpkg/installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC and UIC for target repeatability_single</Message>
+      <Command>setlocal
+cd D:\raw2\ouster-pcap-manipulator\build-win
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/repeatability_single_autogen.dir/AutogenInfo.json Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/Release/repeatability_single.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>Release\pcap_data_manipulator.lib;ouster_sdk_build\ouster_client\Release\ouster_client.lib;ouster_sdk_build\ouster_pcap\Release\ouster_pcap.lib;ouster_sdk_build\ouster_sensor\Release\ouster_sensor.lib;D:\classic-vcpkg\installed\x64-windows\lib\pcap.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\pcap.lib;ouster_sdk_build\ouster_client\Release\ouster_client.lib;ws2_32.lib;D:\classic-vcpkg\installed\x64-windows\lib\libcurl.lib;D:\classic-vcpkg\installed\x64-windows\lib\tins.lib;D:\classic-vcpkg\installed\x64-windows\lib\pcap.lib;D:\classic-vcpkg\installed\x64-windows\lib\libssl.lib;D:\classic-vcpkg\installed\x64-windows\lib\libcrypto.lib;Ws2_32.lib;Iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/Release/repeatability_single.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/Release/repeatability_single.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/classic-vcpkg/installed/x64-windows/include/eigen3" /external:I "D:/raw2/ouster-sdk/ouster_client/include/optional-lite" /external:I "D:/classic-vcpkg/installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC and UIC for target repeatability_single</Message>
+      <Command>setlocal
+cd D:\raw2\ouster-pcap-manipulator\build-win
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/repeatability_single_autogen.dir/AutogenInfo.json MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/repeatability_single.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>MinSizeRel\pcap_data_manipulator.lib;ouster_sdk_build\ouster_client\MinSizeRel\ouster_client.lib;ouster_sdk_build\ouster_pcap\MinSizeRel\ouster_pcap.lib;ouster_sdk_build\ouster_sensor\MinSizeRel\ouster_sensor.lib;D:\classic-vcpkg\installed\x64-windows\lib\pcap.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\pcap.lib;ouster_sdk_build\ouster_client\MinSizeRel\ouster_client.lib;ws2_32.lib;D:\classic-vcpkg\installed\x64-windows\lib\libcurl.lib;D:\classic-vcpkg\installed\x64-windows\lib\tins.lib;D:\classic-vcpkg\installed\x64-windows\lib\pcap.lib;D:\classic-vcpkg\installed\x64-windows\lib\libssl.lib;D:\classic-vcpkg\installed\x64-windows\lib\libcrypto.lib;Ws2_32.lib;Iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/repeatability_single.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/repeatability_single.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/classic-vcpkg/installed/x64-windows/include/eigen3" /external:I "D:/raw2/ouster-sdk/ouster_client/include/optional-lite" /external:I "D:/classic-vcpkg/installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC and UIC for target repeatability_single</Message>
+      <Command>setlocal
+cd D:\raw2\ouster-pcap-manipulator\build-win
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/repeatability_single_autogen.dir/AutogenInfo.json RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/repeatability_single.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>RelWithDebInfo\pcap_data_manipulator.lib;ouster_sdk_build\ouster_client\RelWithDebInfo\ouster_client.lib;ouster_sdk_build\ouster_pcap\RelWithDebInfo\ouster_pcap.lib;ouster_sdk_build\ouster_sensor\RelWithDebInfo\ouster_sensor.lib;D:\classic-vcpkg\installed\x64-windows\lib\pcap.lib;D:\classic-vcpkg\installed\x64-windows\debug\lib\pcap.lib;ouster_sdk_build\ouster_client\RelWithDebInfo\ouster_client.lib;ws2_32.lib;D:\classic-vcpkg\installed\x64-windows\lib\libcurl.lib;D:\classic-vcpkg\installed\x64-windows\lib\tins.lib;D:\classic-vcpkg\installed\x64-windows\lib\pcap.lib;D:\classic-vcpkg\installed\x64-windows\lib\libssl.lib;D:\classic-vcpkg\installed\x64-windows\lib\libcrypto.lib;Ws2_32.lib;Iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/repeatability_single.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/repeatability_single.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuild Include="D:\raw2\ouster-pcap-manipulator\CMakeLists.txt">
@@ -165,6 +497,27 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\mocs_compilation_Debug.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\examples\repeatability_single.cpp" />
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\mocs_compilation_Release.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\mocs_compilation_MinSizeRel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -174,17 +527,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\compare_point_repeatability.vcxproj">
-      <Project>{798179F1-4B29-382B-95F2-AD0E1F5ABE49}</Project>
-      <Name>compare_point_repeatability</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\compute_rail_targets.vcxproj">
-      <Project>{6A4DFD14-5839-3985-A735-B8D3D19CD12E}</Project>
-      <Name>compute_rail_targets</Name>
-    </ProjectReference>
     <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_client\ouster_client.vcxproj">
       <Project>{12445745-0D82-3D6A-8026-BF7FE9DC3E66}</Project>
       <Name>ouster_client</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_generate_header.vcxproj">
+      <Project>{DE86C15F-D13F-3CCE-AAFA-0A09FA5EFD4D}</Project>
+      <Name>ouster_generate_header</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_pcap\ouster_pcap.vcxproj">
       <Project>{375D6DF1-B2D3-3D91-8102-8784EEBB7466}</Project>
@@ -197,18 +548,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\pcap_data_manipulator.vcxproj">
       <Project>{C2587A3B-070F-36CC-92F9-3CFC2EBBD25A}</Project>
       <Name>pcap_data_manipulator</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\pcap_gui.vcxproj">
-      <Project>{9A3E72B6-CC8C-3631-827D-77AACA2F6393}</Project>
-      <Name>pcap_gui</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\pcap_manipulation_example.vcxproj">
-      <Project>{60B8B371-3D29-3575-9266-357AB286EED8}</Project>
-      <Name>pcap_manipulation_example</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single.vcxproj">
-      <Project>{3806E3BB-16C3-30F7-A074-626B7184D966}</Project>
-      <Name>repeatability_single</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
