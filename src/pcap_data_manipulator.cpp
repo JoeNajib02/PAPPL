@@ -404,7 +404,7 @@ std::vector<XYZPoint> PcapDataManipulator::get_valid_points(
 
     // Use SDK LUT helpers: build XYZ lookup and compute cartesian from range
     auto lut = ouster::make_xyz_lut(info, true);
-    auto range = scan.field(sensor::ChanField::RANGE);
+    auto range = scan.field<uint32_t>(sensor::ChanField::RANGE);
     auto xyz = ouster::cartesian(range, lut);
 
     std::vector<XYZPoint> points;
@@ -542,20 +542,63 @@ bool PcapDataManipulator::export_scan_to_csv(size_t scan_index,
         ofs << "x,y,z,range,signal,reflectivity\n";
     }
 
-    // Build LUT and compute cartesian points
+    // Build LUT and compute cartesian points (range is always uint32_t).
     auto lut = ouster::make_xyz_lut(info, true);
-    auto xyz = ouster::cartesian(scan.field(sensor::ChanField::RANGE), lut);
     auto range = scan.field<uint32_t>(sensor::ChanField::RANGE);
-    auto signal = scan.field<uint16_t>(sensor::ChanField::SIGNAL);
-    auto refl = scan.field<uint16_t>(sensor::ChanField::REFLECTIVITY);
+    auto xyz = ouster::cartesian(range, lut);
 
-    for (int row = 0; row < xyz.rows(); ++row) {
-        for (int col = 0; col < xyz.cols(); ++col) {
+    // Some profiles expose SIGNAL/REFLECTIVITY as 16-bit, others as 8-bit.
+    bool has_signal16 = false, has_signal8 = false;
+    img_t<uint16_t> signal16;
+    img_t<uint8_t> signal8;
+    try {
+        signal16 = scan.field<uint16_t>(sensor::ChanField::SIGNAL);
+        has_signal16 = true;
+    } catch (...) {
+    }
+    if (!has_signal16) {
+        try {
+            signal8 = scan.field<uint8_t>(sensor::ChanField::SIGNAL);
+            has_signal8 = true;
+        } catch (...) {
+        }
+    }
+
+    bool has_refl16 = false, has_refl8 = false;
+    img_t<uint16_t> refl16;
+    img_t<uint8_t> refl8;
+    try {
+        refl16 = scan.field<uint16_t>(sensor::ChanField::REFLECTIVITY);
+        has_refl16 = true;
+    } catch (...) {
+    }
+    if (!has_refl16) {
+        try {
+            refl8 = scan.field<uint8_t>(sensor::ChanField::REFLECTIVITY);
+            has_refl8 = true;
+        } catch (...) {
+        }
+    }
+
+    const int h = range.rows();
+    const int w = range.cols();
+    for (int col = 0; col < w; ++col) {
+        for (int row = 0; row < h; ++row) {
             if (!include_invalid && range(row, col) == 0) continue;
-            ofs << xyz(row, col) << "," << xyz(row, col + xyz.rows()) << ","
-                << xyz(row, col + 2 * xyz.rows()) << ","  // Flattened array
-                << range(row, col) << "," << signal(row, col) << ","
-                << refl(row, col) << "\n";
+
+            const auto signal_val =
+                has_signal16 ? static_cast<uint32_t>(signal16(row, col))
+                             : has_signal8 ? static_cast<uint32_t>(signal8(row, col))
+                                           : 0U;
+            const auto refl_val =
+                has_refl16 ? static_cast<uint32_t>(refl16(row, col))
+                           : has_refl8 ? static_cast<uint32_t>(refl8(row, col))
+                                       : 0U;
+
+            // xyz is flattened (N x 3) where idx = col * h + row
+            const int idx = col * h + row;
+            ofs << xyz(idx, 0) << "," << xyz(idx, 1) << "," << xyz(idx, 2) << ","
+                << range(row, col) << "," << signal_val << "," << refl_val << "\n";
         }
     }
     return true;

@@ -1,0 +1,7 @@
+PROJECT_NAME = "ouster-pcap-manipulator"
+OUTPUT_DIRECTORY = docs/doxygen
+INPUT = src examples gui
+RECURSIVE = YES
+EXTRACT_ALL = YES
+GENERATE_HTML = YES
+GENERATE_LATEX = NO

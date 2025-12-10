@@ -232,7 +232,7 @@ else()
             "[PCAP Manipulator] OusterSDK source directory not found at: ${OUSTER_SDK_SOURCE}")
     endif()
     add_subdirectory("${OUSTER_SDK_SOURCE}" "${CMAKE_BINARY_DIR}/ouster_sdk_build")
-message(STATUS "[PCAP Manipulator] Building OusterSDK from source: ${OUSTER_SDK_SOURCE}")
+    message(STATUS "[PCAP Manipulator] Building OusterSDK from source: ${OUSTER_SDK_SOURCE}")
 endif()
 
 # Report libs after all resolution
@@ -296,74 +296,18 @@ target_link_libraries(pcap_data_manipulator
 message(STATUS "[PCAP Manipulator] Library target configured")
 
 # ============================================================================
-# Example Executable
+# Example Executables
 # ============================================================================
 
-add_executable(pcap_manipulation_example
-    examples/pcap_manipulation_example.cpp
-    examples/demo_runner.cpp
-)
-
-# Link to the manipulator library and system dependencies
-target_link_libraries(pcap_manipulation_example
-    PRIVATE
-        pcap_data_manipulator
-        Eigen3::Eigen
-        ouster_client
-        ouster_pcap
-        ouster_sensor
-        ${PCAP_LIBRARIES}
-        tins
-)
-
-add_executable(compare_point_repeatability
-    examples/compare_point_repeatability.cpp
-)
-
-target_link_libraries(compare_point_repeatability
-    PRIVATE
-        pcap_data_manipulator
-        Eigen3::Eigen
-        ouster_client
-        ouster_pcap
-        ouster_sensor
-        ${PCAP_LIBRARIES}
-        tins
-)
-
-add_executable(repeatability_single
-    examples/repeatability_single.cpp
-)
-
-target_link_libraries(repeatability_single
-    PRIVATE
-        pcap_data_manipulator
-        Eigen3::Eigen
-        ouster_client
-        ouster_pcap
-        ouster_sensor
-        ${PCAP_LIBRARIES}
-        tins
+add_executable(MainProgram
+    examples/main_program.cpp
 )
 
 add_executable(compute_rail_targets
     tools/compute_rail_targets.cpp
 )
 
-message(STATUS "[PCAP Manipulator] Library target configured")
-
-# ============================================================================
-# GUI Executable
-# ============================================================================
-
-add_executable(pcap_gui
-    gui/main.cpp
-    gui/pcap_gui.cpp
-    gui/pcap_gui.h
-)
-
-# Link to the manipulator library and Qt
-target_link_libraries(pcap_gui
+target_link_libraries(MainProgram
     PRIVATE
         pcap_data_manipulator
         Eigen3::Eigen
@@ -372,12 +316,9 @@ target_link_libraries(pcap_gui
         ouster_sensor
         ${PCAP_LIBRARIES}
         tins
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
 )
 
-message(STATUS "[PCAP Manipulator] GUI target configured")
+message(STATUS "[PCAP Manipulator] Library target configured")
 
 # ============================================================================
 # Installation Configuration
@@ -415,5 +356,5 @@ message(STATUS "  Project: ${PROJECT_NAME} v${PROJECT_VERSION}")
 message(STATUS "  C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "  Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  OusterSDK Dir: ${OUSTER_SDK_DIR}")
-message(STATUS "  Targets: pcap_manipulation_example, pcap_gui")
+message(STATUS "  Targets: MainProgram; compute_rail_targets")
 message(STATUS "")

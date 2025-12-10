@@ -174,9 +174,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\compare_point_repeatability.vcxproj">
-      <Project>{798179F1-4B29-382B-95F2-AD0E1F5ABE49}</Project>
-      <Name>compare_point_repeatability</Name>
+    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\MainProgram.vcxproj">
+      <Project>{1238CED5-9CD7-3316-92C9-34456F4D787C}</Project>
+      <Name>MainProgram</Name>
     </ProjectReference>
     <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\compute_rail_targets.vcxproj">
       <Project>{6A4DFD14-5839-3985-A735-B8D3D19CD12E}</Project>
@@ -197,18 +197,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\pcap_data_manipulator.vcxproj">
       <Project>{C2587A3B-070F-36CC-92F9-3CFC2EBBD25A}</Project>
       <Name>pcap_data_manipulator</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\pcap_gui.vcxproj">
-      <Project>{9A3E72B6-CC8C-3631-827D-77AACA2F6393}</Project>
-      <Name>pcap_gui</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\pcap_manipulation_example.vcxproj">
-      <Project>{60B8B371-3D29-3575-9266-357AB286EED8}</Project>
-      <Name>pcap_manipulation_example</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\repeatability_single.vcxproj">
-      <Project>{3806E3BB-16C3-30F7-A074-626B7184D966}</Project>
-      <Name>repeatability_single</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

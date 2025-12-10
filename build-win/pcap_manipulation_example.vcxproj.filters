@@ -4,12 +4,6 @@
     <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\pcap_manipulation_example_autogen\mocs_compilation_Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\examples\pcap_manipulation_example.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\examples\demo_runner.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\pcap_manipulation_example_autogen\mocs_compilation_Release.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -1,5 +1,9 @@
 /**
- * Umbrella header that re-exports repeatability filters, pipeline, and metrics.
+ * @file repeatability_filters.h
+ * @brief Umbrella include aggregating repeatability filters, pipeline, and metrics.
+ *
+ * Downstream code can include this single header to access the common
+ * repeatability building blocks used by the examples.
  */
 #pragma once
 
