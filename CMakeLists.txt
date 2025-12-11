@@ -220,6 +220,10 @@ option(OUSTER_USE_INSTALLED_SDK "Use installed OusterSDK via find_package" OFF)
 option(OUSTER_SDK_FETCH "Automatically fetch OusterSDK into the tree when not found" ON)
 set(OUSTER_SDK_GIT_TAG "64a6cbe6dff1eea0cb5a79d63b79acf11b68b16d" CACHE STRING "Git tag or commit for OusterSDK when auto-fetching")
 set(OUSTER_SDK_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/external/ouster-sdk" CACHE PATH "Path to ouster-sdk source")
+# Keep ouster-sdk lean for our use case: disable viz/tests/examples to avoid extra deps (GLEW, Qt extras)
+set(BUILD_VIZ OFF CACHE BOOL "Disable Ouster SDK viz" FORCE)
+set(BUILD_TESTING OFF CACHE BOOL "Disable Ouster SDK tests" FORCE)
+set(BUILD_EXAMPLES OFF CACHE BOOL "Disable Ouster SDK examples" FORCE)
 
 if(OUSTER_USE_INSTALLED_SDK)
     find_package(OusterSDK REQUIRED)
@@ -269,6 +273,7 @@ add_library(pcap_data_manipulator STATIC
     ${REPEATABILITY_SRC}
     src/scan_statistics.cpp
     src/scan_filters.cpp
+    src/rail_profile_processor.cpp
 )
 
 # Include directories for library
@@ -277,6 +282,9 @@ target_include_directories(pcap_data_manipulator
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         $<INSTALL_INTERFACE:include/ouster-pcap-manipulator>
         $<$<BOOL:${WIN32}>:${CMAKE_CURRENT_SOURCE_DIR}/examples>
+        ${OUSTER_SDK_SOURCE}/ouster_client/include
+        ${CMAKE_BINARY_DIR}/ouster_sdk_build/generated
+        ${OUSTER_SDK_SOURCE}/ouster_pcap/include
 )
 
 # Link libraries for manipulator - use ouster targets from source build
@@ -373,6 +381,20 @@ target_link_libraries(pcap_gui
 message(STATUS "[PCAP Manipulator] GUI target configured")
 
 # ============================================================================
+# Rail profile example (CLI)
+# ============================================================================
+
+add_executable(rail_profile_example
+    examples/rail_profile_example.cpp
+)
+
+target_link_libraries(rail_profile_example
+    PRIVATE
+        pcap_data_manipulator
+        Eigen3::Eigen
+)
+
+# ============================================================================
 # Installation Configuration
 # ============================================================================
 
@@ -385,6 +407,7 @@ install(FILES src/pcap_data_manipulator.h
               ${REPEATABILITY_HDR}
               src/scan_statistics.h
               src/scan_filters.h
+              src/rail_profile_processor.h
         DESTINATION include/ouster-pcap-manipulator
 )
 
@@ -408,7 +431,7 @@ message(STATUS "  Project: ${PROJECT_NAME} v${PROJECT_VERSION}")
 message(STATUS "  C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "  Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  OusterSDK Dir: ${OUSTER_SDK_DIR}")
-message(STATUS "  Targets: pcap_manipulation_example, pcap_gui")
+message(STATUS "  Targets: pcap_manipulation_example, pcap_gui, rail_profile_example")
 message(STATUS "")
 
 # ============================================================================

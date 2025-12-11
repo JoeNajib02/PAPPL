@@ -22,6 +22,36 @@ Notes:
 - If you already have the Ouster SDK locally, drop it in `external/ouster-sdk` (or set `-DOUSTER_SDK_SOURCE=/path/...`) and the build will use it instead of fetching.
 - Windows needs the Npcap runtime driver installed (vcpkg pulls headers/libs; the driver installer is at https://npcap.com).
 
+## Rail profile denoising pipeline (mm-level, rail-specific)
+
+What it does:
+- Loads a raw XYZ/CSV point cloud, estimates the rail axis with PCA, bins along the rail, removes global slope, suppresses <2 mm jitter, and preserves >3–4 mm deformations.
+- Outputs CSV with `distance_along_rail_m` and `filtered_vertical_deviation_mm`.
+
+How to run the example CLI:
+```bash
+# macOS
+cmake --preset mac-release-arm64 && cmake --build --preset mac-release-arm64
+./build/mac-release-arm64/rail_profile_example input.xyz output.csv
+
+# Windows (PowerShell)
+cmake --preset win-release && cmake --build --preset win-release --config Release
+.\build\win-release\Release\rail_profile_example.exe input.xyz output.csv
+```
+
+Input format:
+- Plain text with `x y z` (space- or comma-separated), meters, one point per line; lines starting with `#` are ignored.
+
+Algorithm highlights:
+- PCA to get rail axis (stable sign), gravity-up for vertical deviations.
+- Binning at 1 cm, bin-wise median height to resist outliers/point sparsity.
+- Linear trend removal to avoid swallowing local bumps into global alignment.
+- Median filter + Savitzky–Golay (window 11, poly 3) for high-frequency noise removal while keeping mm-scale bumps.
+- Soft threshold: <2 mm → zeroed; >3.5 mm preserved.
+
+Tuning knobs (see `RailProfileConfig` in `src/rail_profile_processor.h`):
+- `bin_size_m` (default 0.01), `median_window`, `sg_window`, `sg_poly`, `noise_floor_mm`, `min_signal_mm`.
+
 first, i put the ouster-sdk next to the PAPPL directory.
 i then moved to my branch mich
 then i built it: cd /Users/michel/MichelFile/pappllocal/raw2_2/ouster-pcap-manipulatorcmake -S . -B build \  -DOUSTER_SDK_SOURCE="/Users/michel/MichelFile/pappllocal/raw_github/ouster-sdk" \

@@ -2,51 +2,51 @@
   {
     "label": "baseline",
     "frames_used": 60,
-    "samples": 304030,
-    "mean_range_mm": 17856,
-    "std_range_mm": 14760.7,
-    "mean_abs_dev_mm": 12149.4,
-    "frame_mean_std_mm": 167.578,
-    "valid_ratio": 0.618551
+    "samples": 116067,
+    "mean_range_mm": 11963.3,
+    "std_range_mm": 19557.5,
+    "mean_abs_dev_mm": 10947.1,
+    "frame_mean_std_mm": 257.412,
+    "valid_ratio": 0.472278
   },
   {
     "label": "staged_outlier_ema_planarity",
     "frames_used": 60,
-    "samples": 247096,
-    "mean_range_mm": 21156.6,
-    "std_range_mm": 4402.52,
-    "mean_abs_dev_mm": 3574.09,
-    "frame_mean_std_mm": 15.3295,
-    "valid_ratio": 0.502718
+    "samples": 110788,
+    "mean_range_mm": 8596.79,
+    "std_range_mm": 3135.93,
+    "mean_abs_dev_mm": 2194.57,
+    "frame_mean_std_mm": 273.155,
+    "valid_ratio": 0.450798
   },
   {
     "label": "temporal_median",
     "frames_used": 60,
-    "samples": 317615,
-    "mean_range_mm": 17942.4,
-    "std_range_mm": 15017.9,
-    "mean_abs_dev_mm": 12385.6,
-    "frame_mean_std_mm": 11.0719,
-    "valid_ratio": 0.646189
+    "samples": 120633,
+    "mean_range_mm": 13204.8,
+    "std_range_mm": 22148.8,
+    "mean_abs_dev_mm": 12684.2,
+    "frame_mean_std_mm": 229.072,
+    "valid_ratio": 0.490857
   },
   {
     "label": "kalman",
     "frames_used": 60,
-    "samples": 304030,
-    "mean_range_mm": 17855.4,
-    "std_range_mm": 14758.7,
-    "mean_abs_dev_mm": 12149.1,
-    "frame_mean_std_mm": 167.715,
-    "valid_ratio": 0.618551
+    "samples": 116067,
+    "mean_range_mm": 11965.8,
+    "std_range_mm": 19554.5,
+    "mean_abs_dev_mm": 10947.9,
+    "frame_mean_std_mm": 257.216,
+    "valid_ratio": 0.472278
   },
   {
     "label": "huber",
     "frames_used": 60,
-    "samples": 304030,
-    "mean_range_mm": 17851.8,
-    "std_range_mm": 14709.2,
-    "mean_abs_dev_mm": 12125,
-    "frame_mean_std_mm": 167.659,
-    "valid_ratio": 0.618551
+    "samples": 116067,
+    "mean_range_mm": 11985.2,
+    "std_range_mm": 19530.7,
+    "mean_abs_dev_mm": 10943.1,
+    "frame_mean_std_mm": 270.267,
+    "valid_ratio": 0.472278
   }
 ]

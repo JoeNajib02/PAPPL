@@ -15,7 +15,6 @@
 #include <cstdlib>
 #include <string>
 
-#include "ouster/cartesian.h"
 #include "ouster/os_pcap.h"
 #include "ouster/pcap_packet_source.h"
 #include "ouster/packet.h"

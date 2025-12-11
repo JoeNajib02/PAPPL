@@ -16,8 +16,14 @@
 
 #include "ouster/lidar_scan.h"
 #include "ouster/types.h"
-#include "ouster/visibility.h"
 #include "scan_statistics.h"
+
+#ifndef OUSTER_API_CLASS
+#define OUSTER_API_CLASS
+#endif
+#ifndef OUSTER_API_FUNCTION
+#define OUSTER_API_FUNCTION
+#endif
 
 namespace ouster {
 namespace sensor_utils {
