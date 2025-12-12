@@ -22,12 +22,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1238CED5-9CD7-3316-92C9-34456F4D787C}</ProjectGuid>
+    <ProjectGuid>{6603218A-9AA9-3029-B176-E2412E418BBB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <VcpkgEnabled>false</VcpkgEnabled>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
-    <ProjectName>MainProgram</ProjectName>
+    <ProjectName>extract_targets_from_pcap</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -61,33 +61,33 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\raw2\ouster-pcap-manipulator\build-win\Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MainProgram.dir\Debug\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MainProgram</TargetName>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">extract_targets_from_pcap.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">extract_targets_from_pcap</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\raw2\ouster-pcap-manipulator\build-win\Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MainProgram.dir\Release\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MainProgram</TargetName>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">extract_targets_from_pcap.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">extract_targets_from_pcap</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\raw2\ouster-pcap-manipulator\build-win\MinSizeRel\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">MainProgram.dir\MinSizeRel\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">MainProgram</TargetName>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">extract_targets_from_pcap.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">extract_targets_from_pcap</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\raw2\ouster-pcap-manipulator\build-win\RelWithDebInfo\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">MainProgram.dir\RelWithDebInfo\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">MainProgram</TargetName>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">extract_targets_from_pcap.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">extract_targets_from_pcap</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/classic-vcpkg/installed/x64-windows/include/eigen3" /external:I "D:/raw2/ouster-sdk/ouster_client/include/optional-lite" /external:I "D:/classic-vcpkg/installed/x64-windows/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -116,10 +116,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_Debug;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -128,13 +128,13 @@
     </Midl>
     <PreBuildEvent>
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Automatic MOC and UIC for target MainProgram</Message>
+      <Message>Automatic MOC and UIC for target extract_targets_from_pcap</Message>
       <Command>setlocal
 cd D:\raw2\ouster-pcap-manipulator\build-win
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/MainProgram_autogen.dir/AutogenInfo.json Debug
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/extract_targets_from_pcap_autogen.dir/AutogenInfo.json Debug
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -146,7 +146,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/Debug/MainProgram.exe -installedDir D:/classic-vcpkg/installed/x64-windows/debug/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/Debug/extract_targets_from_pcap.exe -installedDir D:/classic-vcpkg/installed/x64-windows/debug/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -163,9 +163,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/Debug/MainProgram.lib</ImportLibrary>
+      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/Debug/extract_targets_from_pcap.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/Debug/MainProgram.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/Debug/extract_targets_from_pcap.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -175,7 +175,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/classic-vcpkg/installed/x64-windows/include/eigen3" /external:I "D:/raw2/ouster-sdk/ouster_client/include/optional-lite" /external:I "D:/classic-vcpkg/installed/x64-windows/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -205,10 +205,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_Release;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -217,13 +217,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </Midl>
     <PreBuildEvent>
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Automatic MOC and UIC for target MainProgram</Message>
+      <Message>Automatic MOC and UIC for target extract_targets_from_pcap</Message>
       <Command>setlocal
 cd D:\raw2\ouster-pcap-manipulator\build-win
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/MainProgram_autogen.dir/AutogenInfo.json Release
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/extract_targets_from_pcap_autogen.dir/AutogenInfo.json Release
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -235,7 +235,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/Release/MainProgram.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/Release/extract_targets_from_pcap.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -252,9 +252,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/Release/MainProgram.lib</ImportLibrary>
+      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/Release/extract_targets_from_pcap.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/Release/MainProgram.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/Release/extract_targets_from_pcap.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -264,7 +264,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/classic-vcpkg/installed/x64-windows/include/eigen3" /external:I "D:/raw2/ouster-sdk/ouster_client/include/optional-lite" /external:I "D:/classic-vcpkg/installed/x64-windows/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -294,10 +294,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_MinSizeRel;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -306,13 +306,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </Midl>
     <PreBuildEvent>
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Automatic MOC and UIC for target MainProgram</Message>
+      <Message>Automatic MOC and UIC for target extract_targets_from_pcap</Message>
       <Command>setlocal
 cd D:\raw2\ouster-pcap-manipulator\build-win
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/MainProgram_autogen.dir/AutogenInfo.json MinSizeRel
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/extract_targets_from_pcap_autogen.dir/AutogenInfo.json MinSizeRel
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -324,7 +324,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/MainProgram.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/extract_targets_from_pcap.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -341,9 +341,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/MainProgram.lib</ImportLibrary>
+      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/extract_targets_from_pcap.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/MainProgram.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/MinSizeRel/extract_targets_from_pcap.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -353,7 +353,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/classic-vcpkg/installed/x64-windows/include/eigen3" /external:I "D:/raw2/ouster-sdk/ouster_client/include/optional-lite" /external:I "D:/classic-vcpkg/installed/x64-windows/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -382,10 +382,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\include_RelWithDebInfo;D:\raw2\ouster-pcap-manipulator\src;D:\raw2\ouster-pcap-manipulator\examples;D:\raw2\ouster-sdk\ouster_client\include;D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\generated;D:\raw2\ouster-sdk\ouster_pcap\include;D:\raw2\ouster-sdk\ouster_sensor\include;D:\classic-vcpkg\installed\x64-windows\include\eigen3;D:\raw2\ouster-sdk\ouster_client\include\optional-lite;D:\classic-vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -394,13 +394,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </Midl>
     <PreBuildEvent>
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Automatic MOC and UIC for target MainProgram</Message>
+      <Message>Automatic MOC and UIC for target extract_targets_from_pcap</Message>
       <Command>setlocal
 cd D:\raw2\ouster-pcap-manipulator\build-win
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/MainProgram_autogen.dir/AutogenInfo.json RelWithDebInfo
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen D:/raw2/ouster-pcap-manipulator/build-win/CMakeFiles/extract_targets_from_pcap_autogen.dir/AutogenInfo.json RelWithDebInfo
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -412,7 +412,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/MainProgram.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/classic-vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/extract_targets_from_pcap.exe -installedDir D:/classic-vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -429,9 +429,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/MainProgram.lib</ImportLibrary>
+      <ImportLibrary>D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/extract_targets_from_pcap.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/MainProgram.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>D:/raw2/ouster-pcap-manipulator/build-win/RelWithDebInfo/extract_targets_from_pcap.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -497,23 +497,23 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\mocs_compilation_Debug.cpp">
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\mocs_compilation_Debug.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\examples\main_program.cpp" />
-    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\mocs_compilation_Release.cpp">
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\tools\extract_targets_from_pcap.cpp" />
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\mocs_compilation_Release.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\mocs_compilation_MinSizeRel.cpp">
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\mocs_compilation_MinSizeRel.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\MainProgram_autogen\mocs_compilation_RelWithDebInfo.cpp">
+    <ClCompile Include="D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap_autogen\mocs_compilation_RelWithDebInfo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>

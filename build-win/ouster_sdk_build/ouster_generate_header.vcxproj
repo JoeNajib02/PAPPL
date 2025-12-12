@@ -80,7 +80,7 @@ cd D:\raw2\ouster-pcap-manipulator\build-win
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -DVERSION_GEN_OUT_DIR="D:/raw2/ouster-pcap-manipulator/build-win/ouster_sdk_build/generated/ouster/impl" -DVERSION_GEN_SOURCE_DIR="D:/raw2/ouster-sdk/cmake" -DBUILD_TYPE="" -DBUILD_SYSTEM="Windows" -DOusterSDK_VERSION="0.15.1" -DOusterSDK_VERSION_SUFFIX="" -P D:/raw2/ouster-sdk/cmake/VersionGen.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -DVERSION_GEN_OUT_DIR="D:/raw2/ouster-pcap-manipulator/build-win/ouster_sdk_build/generated/ouster/impl" -DVERSION_GEN_SOURCE_DIR="D:/raw2/ouster-sdk/cmake" -DBUILD_TYPE="Release" -DBUILD_SYSTEM="Windows" -DOusterSDK_VERSION="0.15.1" -DOusterSDK_VERSION_SUFFIX="" -P D:/raw2/ouster-sdk/cmake/VersionGen.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -106,7 +106,7 @@ cd D:\raw2\ouster-pcap-manipulator\build-win
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -DVERSION_GEN_OUT_DIR="D:/raw2/ouster-pcap-manipulator/build-win/ouster_sdk_build/generated/ouster/impl" -DVERSION_GEN_SOURCE_DIR="D:/raw2/ouster-sdk/cmake" -DBUILD_TYPE="" -DBUILD_SYSTEM="Windows" -DOusterSDK_VERSION="0.15.1" -DOusterSDK_VERSION_SUFFIX="" -P D:/raw2/ouster-sdk/cmake/VersionGen.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -DVERSION_GEN_OUT_DIR="D:/raw2/ouster-pcap-manipulator/build-win/ouster_sdk_build/generated/ouster/impl" -DVERSION_GEN_SOURCE_DIR="D:/raw2/ouster-sdk/cmake" -DBUILD_TYPE="Release" -DBUILD_SYSTEM="Windows" -DOusterSDK_VERSION="0.15.1" -DOusterSDK_VERSION_SUFFIX="" -P D:/raw2/ouster-sdk/cmake/VersionGen.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -132,7 +132,7 @@ cd D:\raw2\ouster-pcap-manipulator\build-win
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -DVERSION_GEN_OUT_DIR="D:/raw2/ouster-pcap-manipulator/build-win/ouster_sdk_build/generated/ouster/impl" -DVERSION_GEN_SOURCE_DIR="D:/raw2/ouster-sdk/cmake" -DBUILD_TYPE="" -DBUILD_SYSTEM="Windows" -DOusterSDK_VERSION="0.15.1" -DOusterSDK_VERSION_SUFFIX="" -P D:/raw2/ouster-sdk/cmake/VersionGen.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -DVERSION_GEN_OUT_DIR="D:/raw2/ouster-pcap-manipulator/build-win/ouster_sdk_build/generated/ouster/impl" -DVERSION_GEN_SOURCE_DIR="D:/raw2/ouster-sdk/cmake" -DBUILD_TYPE="Release" -DBUILD_SYSTEM="Windows" -DOusterSDK_VERSION="0.15.1" -DOusterSDK_VERSION_SUFFIX="" -P D:/raw2/ouster-sdk/cmake/VersionGen.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -158,7 +158,7 @@ cd D:\raw2\ouster-pcap-manipulator\build-win
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -DVERSION_GEN_OUT_DIR="D:/raw2/ouster-pcap-manipulator/build-win/ouster_sdk_build/generated/ouster/impl" -DVERSION_GEN_SOURCE_DIR="D:/raw2/ouster-sdk/cmake" -DBUILD_TYPE="" -DBUILD_SYSTEM="Windows" -DOusterSDK_VERSION="0.15.1" -DOusterSDK_VERSION_SUFFIX="" -P D:/raw2/ouster-sdk/cmake/VersionGen.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -DVERSION_GEN_OUT_DIR="D:/raw2/ouster-pcap-manipulator/build-win/ouster_sdk_build/generated/ouster/impl" -DVERSION_GEN_SOURCE_DIR="D:/raw2/ouster-sdk/cmake" -DBUILD_TYPE="Release" -DBUILD_SYSTEM="Windows" -DOusterSDK_VERSION="0.15.1" -DOusterSDK_VERSION_SUFFIX="" -P D:/raw2/ouster-sdk/cmake/VersionGen.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone

@@ -182,6 +182,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{6A4DFD14-5839-3985-A735-B8D3D19CD12E}</Project>
       <Name>compute_rail_targets</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\extract_targets_from_pcap.vcxproj">
+      <Project>{6603218A-9AA9-3029-B176-E2412E418BBB}</Project>
+      <Name>extract_targets_from_pcap</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\raw2\ouster-pcap-manipulator\build-win\ouster_sdk_build\ouster_client\ouster_client.vcxproj">
       <Project>{12445745-0D82-3D6A-8026-BF7FE9DC3E66}</Project>
       <Name>ouster_client</Name>

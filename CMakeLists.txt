@@ -307,7 +307,22 @@ add_executable(compute_rail_targets
     tools/compute_rail_targets.cpp
 )
 
+add_executable(extract_targets_from_pcap
+    tools/extract_targets_from_pcap.cpp
+)
+
 target_link_libraries(MainProgram
+    PRIVATE
+        pcap_data_manipulator
+        Eigen3::Eigen
+        ouster_client
+        ouster_pcap
+        ouster_sensor
+        ${PCAP_LIBRARIES}
+        tins
+)
+
+target_link_libraries(extract_targets_from_pcap
     PRIVATE
         pcap_data_manipulator
         Eigen3::Eigen
