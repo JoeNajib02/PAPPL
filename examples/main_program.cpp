@@ -9,6 +9,7 @@
  *               [--grid-res-m=0.1] [--max-scans=0]
  */
 
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <filesystem>
@@ -48,6 +49,18 @@ struct MeanResults {
     size_t frames_used = 0;
 };
 
+struct TargetSummary {
+    size_t found = 0;
+    size_t missing = 0;
+};
+
+struct DeltaStats {
+    size_t samples = 0;
+    double mean_dz_mm = std::numeric_limits<double>::quiet_NaN();
+    double mean_abs_dz_mm = std::numeric_limits<double>::quiet_NaN();
+    double max_abs_dz_mm = std::numeric_limits<double>::quiet_NaN();
+};
+
 struct AcquisitionResult {
     std::string label;
     MeanResults raw;
@@ -64,6 +77,35 @@ struct AppConfig {
     size_t max_scans = 0;
     double fallback_radius_m = 3.0;  // extra radial search if grid misses
 };
+
+DeltaStats compute_delta_stats(const MeanResults& ref, const MeanResults& cmp) {
+    DeltaStats s{};
+    const size_t n = std::min(ref.mean.size(), cmp.mean.size());
+    double sum = 0.0;
+    double sum_abs = 0.0;
+    double max_abs = 0.0;
+    for (size_t i = 0; i < n; ++i) {
+        const bool ref_missing =
+            i >= ref.counts.size() || ref.counts[i] == 0 ||
+            std::isnan(ref.mean[i]);
+        const bool cmp_missing =
+            i >= cmp.counts.size() || cmp.counts[i] == 0 ||
+            std::isnan(cmp.mean[i]);
+        if (ref_missing || cmp_missing) continue;
+        const double dz_mm = (cmp.mean[i] - ref.mean[i]) * 1000.0;
+        s.samples++;
+        sum += dz_mm;
+        const double adz = std::abs(dz_mm);
+        sum_abs += adz;
+        if (adz > max_abs) max_abs = adz;
+    }
+    if (s.samples > 0) {
+        s.mean_dz_mm = sum / static_cast<double>(s.samples);
+        s.mean_abs_dz_mm = sum_abs / static_cast<double>(s.samples);
+        s.max_abs_dz_mm = max_abs;
+    }
+    return s;
+}
 
 std::string trim(const std::string& s) {
     const auto first = s.find_first_not_of(" \t\r\n");
@@ -127,6 +169,22 @@ std::vector<TargetPoint> load_targets(const std::string& path, double grid_res_m
         }
     }
     return targets;
+}
+
+TargetSummary summarize_targets(const MeanResults& res) {
+    TargetSummary s{};
+    const size_t n = res.mean.size();
+    for (size_t i = 0; i < n; ++i) {
+        const bool missing =
+            i >= res.counts.size() || res.counts[i] == 0 ||
+            std::isnan(res.mean[i]);
+        if (missing) {
+            s.missing++;
+        } else {
+            s.found++;
+        }
+    }
+    return s;
 }
 
 class DataContext {
@@ -508,12 +566,20 @@ int main(int argc, char* argv[]) {
             return EXIT_FAILURE;
         }
 
+        std::cout << "[config] grid_res=" << cfg.grid_res_m << " m"
+                  << ", fallback=" << cfg.fallback_radius_m << " m"
+                  << ", max_scans=" << (cfg.max_scans == 0 ? std::string("all")
+                                                          : std::to_string(cfg.max_scans))
+                  << "\n";
+
         DataContext ref_ctx(cfg.pcap_ref, cfg.json_path);
         DataContext cand_ctx(cfg.pcap_other, cfg.json_path);
         std::cout << "Loading reference PCAP...\n";
         if (!ref_ctx.load()) return EXIT_FAILURE;
+        std::cout << "[info] reference scans loaded: " << ref_ctx.manip().num_scans() << "\n";
         std::cout << "Loading candidate PCAP...\n";
         if (!cand_ctx.load()) return EXIT_FAILURE;
+        std::cout << "[info] candidate scans loaded: " << cand_ctx.manip().num_scans() << "\n";
 
         // recompute keys with aligned targets
         for (auto& t : targets) t.key = key_from_xy(t.x, t.y, cfg.grid_res_m);
@@ -527,6 +593,40 @@ int main(int argc, char* argv[]) {
         auto cand_res = evaluate_acquisition("candidate", cand_ctx, targets, key_to_idx,
                                              cfg.grid_res_m, cfg.max_scans,
                                              cfg.fallback_radius_m, true);
+
+        // Print quick terminal summaries for visibility.
+        const size_t total_targets = targets.size();
+        auto raw_summary = summarize_targets(cand_res.raw);
+        std::vector<std::string> pipeline_names;
+        for (const auto& kv : cand_res.filt_by_name) pipeline_names.push_back(kv.first);
+        std::sort(pipeline_names.begin(), pipeline_names.end());
+        std::cout << "[summary] filters evaluated:";
+        for (const auto& name : pipeline_names) std::cout << " " << name;
+        std::cout << "\n";
+        std::cout << "[summary] raw found " << raw_summary.found << "/" << total_targets
+                  << ", missing " << raw_summary.missing
+                  << ", frames used " << cand_res.raw.frames_used << "\n";
+        auto raw_stats = compute_delta_stats(ref_res.raw, cand_res.raw);
+        if (raw_stats.samples > 0) {
+            std::cout << "  dz raw: mean=" << raw_stats.mean_dz_mm << " mm"
+                      << ", mean|dz|=" << raw_stats.mean_abs_dz_mm << " mm"
+                      << ", max|dz|=" << raw_stats.max_abs_dz_mm << " mm"
+                      << " over " << raw_stats.samples << " samples\n";
+        }
+        for (const auto& name : pipeline_names) {
+            const auto& res = cand_res.filt_by_name.at(name);
+            auto s = summarize_targets(res);
+            std::cout << "  - " << name << ": found " << s.found << "/" << total_targets
+                      << ", missing " << s.missing
+                      << ", frames used " << res.frames_used << "\n";
+            auto stats = compute_delta_stats(ref_res.raw, res);
+            if (stats.samples > 0) {
+                std::cout << "    dz: mean=" << stats.mean_dz_mm << " mm"
+                          << ", mean|dz|=" << stats.mean_abs_dz_mm << " mm"
+                          << ", max|dz|=" << stats.max_abs_dz_mm << " mm"
+                          << " over " << stats.samples << " samples\n";
+            }
+        }
 
         // Verify targets in the reference PCAP (closest hit within fallback radius).
         auto hits = verify_targets(ref_ctx, targets, cfg.grid_res_m,
