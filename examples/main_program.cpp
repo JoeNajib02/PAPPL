@@ -10,6 +10,7 @@
  */
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <cstdint>
 #include <filesystem>
@@ -40,6 +41,7 @@ struct TargetPoint {
     std::string id;
     double x = 0.0;
     double y = 0.0;
+    double z = 0.0;
     int64_t key = 0;
 };
 
@@ -56,9 +58,9 @@ struct TargetSummary {
 
 struct DeltaStats {
     size_t samples = 0;
-    double mean_dz_mm = std::numeric_limits<double>::quiet_NaN();
-    double mean_abs_dz_mm = std::numeric_limits<double>::quiet_NaN();
-    double max_abs_dz_mm = std::numeric_limits<double>::quiet_NaN();
+    double mean_dz_m = std::numeric_limits<double>::quiet_NaN();
+    double mean_abs_dz_m = std::numeric_limits<double>::quiet_NaN();
+    double max_abs_dz_m = std::numeric_limits<double>::quiet_NaN();
 };
 
 struct AcquisitionResult {
@@ -75,7 +77,8 @@ struct AppConfig {
     std::string pcap_other;
     double grid_res_m = 0.1;
     size_t max_scans = 0;
-    double fallback_radius_m = 3.0;  // extra radial search if grid misses
+    double fallback_radius_m = 3.0;    // extra radial search if grid misses
+    double max_match_radius_m = 0.005;  // 5 mm hard cap by default
 };
 
 DeltaStats compute_delta_stats(const MeanResults& ref, const MeanResults& cmp) {
@@ -92,17 +95,17 @@ DeltaStats compute_delta_stats(const MeanResults& ref, const MeanResults& cmp) {
             i >= cmp.counts.size() || cmp.counts[i] == 0 ||
             std::isnan(cmp.mean[i]);
         if (ref_missing || cmp_missing) continue;
-        const double dz_mm = (cmp.mean[i] - ref.mean[i]) * 1000.0;
+        const double dz_m = (cmp.mean[i] - ref.mean[i]);
         s.samples++;
-        sum += dz_mm;
-        const double adz = std::abs(dz_mm);
+        sum += dz_m;
+        const double adz = std::abs(dz_m);
         sum_abs += adz;
         if (adz > max_abs) max_abs = adz;
     }
     if (s.samples > 0) {
-        s.mean_dz_mm = sum / static_cast<double>(s.samples);
-        s.mean_abs_dz_mm = sum_abs / static_cast<double>(s.samples);
-        s.max_abs_dz_mm = max_abs;
+        s.mean_dz_m = sum / static_cast<double>(s.samples);
+        s.mean_abs_dz_m = sum_abs / static_cast<double>(s.samples);
+        s.max_abs_dz_m = max_abs;
     }
     return s;
 }
@@ -139,6 +142,8 @@ std::vector<TargetPoint> load_targets(const std::string& path, double grid_res_m
     std::vector<TargetPoint> targets;
     std::string line;
     size_t line_no = 0;
+    double unit_scale = 1.0;  // assume meters unless we detect *_mm headers
+    bool unit_scale_set = false;
     while (std::getline(ifs, line)) {
         line_no++;
         line = trim(line);
@@ -151,6 +156,18 @@ std::vector<TargetPoint> load_targets(const std::string& path, double grid_res_m
         if (cols.size() < 2) continue;
         for (auto& c : cols) c = strip_quotes(c);
 
+        // Detect and honor headers that indicate millimeter units.
+        if (!unit_scale_set) {
+            std::string lower = line;
+            std::transform(lower.begin(), lower.end(), lower.begin(),
+                           [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+            if (lower.find("_mm") != std::string::npos) {
+                unit_scale = 0.001;
+                unit_scale_set = true;
+                continue;  // header line, skip parsing
+            }
+        }
+
         TargetPoint t;
         size_t idx = 0;
         if (cols.size() == 2) {
@@ -159,11 +176,28 @@ std::vector<TargetPoint> load_targets(const std::string& path, double grid_res_m
             t.id = cols[idx++];
         }
         try {
-            t.x = std::stod(cols[idx++]);
-            t.y = std::stod(cols[idx++]);
+            t.x = std::stod(cols[idx++]) * unit_scale;
+            t.y = std::stod(cols[idx++]) * unit_scale;
+            if (idx < cols.size()) {
+                t.z = std::stod(cols[idx++]) * unit_scale;
+            }
             t.key = key_from_xy(t.x, t.y, grid_res_m);
             targets.push_back(t);
         } catch (...) {
+            // Treat non-numeric rows as headers without spamming stderr.
+            bool has_alpha = false;
+            for (const auto& c : cols) {
+                for (char ch : c) {
+                    if (std::isalpha(static_cast<unsigned char>(ch))) {
+                        has_alpha = true;
+                        break;
+                    }
+                }
+                if (has_alpha) break;
+            }
+            if (has_alpha) {
+                continue;
+            }
             std::cerr << "Skipping line " << line_no << " (bad number): " << line << "\n";
             continue;
         }
@@ -220,34 +254,34 @@ std::vector<PipelineSpec> make_pipeline_specs() {
     return {
         {"kalman", [](const sensor_info& info) {
              RepeatabilityPipeline p(info);
-             // More aggressive smoothing: higher process / measurement noise variances.
-             p.add_filter(std::make_unique<ouster::sensor_utils::KalmanRangeFilter>(5000.0, 2000.0));
+             // Stronger temporal smoothing (larger process/measurement noise).
+             p.add_filter(std::make_unique<ouster::sensor_utils::KalmanRangeFilter>(20000.0, 8000.0));
              return p;
          }},
         {"outlier", [](const sensor_info& info) {
              RepeatabilityPipeline p(info);
-             // Stricter outlier rejection: lower z-score, higher min range.
-             p.add_filter(std::make_unique<ouster::sensor_utils::StatisticalOutlierFilter>(1.5, 1500));
+             // More aggressive outlier rejection: tighter z-score and lower min range.
+             p.add_filter(std::make_unique<ouster::sensor_utils::StatisticalOutlierFilter>(1.0, 500));
              return p;
          }},
         {"planarity", [](const sensor_info& info) {
              RepeatabilityPipeline p(info);
-             // Larger neighborhood, tighter planarity threshold.
-             p.add_filter(std::make_unique<ouster::sensor_utils::PlanaritySmoother>(2, 500, 0.3));
+             // Larger neighborhood and stricter planarity test.
+             p.add_filter(std::make_unique<ouster::sensor_utils::PlanaritySmoother>(3, 800, 0.2));
              return p;
          }},
         {"normal", [](const sensor_info& info) {
              RepeatabilityPipeline p(info);
-             // Tighter angular match, heavier blend with neighbors.
-             p.add_filter(std::make_unique<ouster::sensor_utils::NormalGuidedSmoother>(8.0, 0.8));
+             // Tighter angular match, heavier neighbor blend.
+             p.add_filter(std::make_unique<ouster::sensor_utils::NormalGuidedSmoother>(5.0, 0.9));
              return p;
          }},
         {"full_chain", [](const sensor_info& info) {
              RepeatabilityPipeline p(info);
-             p.add_filter(std::make_unique<ouster::sensor_utils::KalmanRangeFilter>(5000.0, 2000.0));
-             p.add_filter(std::make_unique<ouster::sensor_utils::StatisticalOutlierFilter>(1.5, 1500));
-             p.add_filter(std::make_unique<ouster::sensor_utils::PlanaritySmoother>(2, 500, 0.3));
-             p.add_filter(std::make_unique<ouster::sensor_utils::NormalGuidedSmoother>(8.0, 0.8));
+             p.add_filter(std::make_unique<ouster::sensor_utils::KalmanRangeFilter>(20000.0, 8000.0));
+             p.add_filter(std::make_unique<ouster::sensor_utils::StatisticalOutlierFilter>(1.0, 500));
+             p.add_filter(std::make_unique<ouster::sensor_utils::PlanaritySmoother>(3, 800, 0.2));
+             p.add_filter(std::make_unique<ouster::sensor_utils::NormalGuidedSmoother>(5.0, 0.9));
              return p;
          }},
     };
@@ -257,13 +291,17 @@ void accumulate_scan(const LidarScan& scan,
                      const ouster::XYZLut& lut,
                      double grid_res_m,
                      double fallback_radius_m,
+                     double max_match_r2,
                      const std::vector<TargetPoint>& targets,
                      const std::unordered_map<int64_t, size_t>& key_to_idx,
-                     std::vector<double>& sum_z,
-                     std::vector<size_t>& counts) {
+                     std::vector<double>& best_z,
+                     std::vector<double>& best_d2) {
     auto range = scan.field<uint32_t>(ouster::sensor::ChanField::RANGE);
     auto points = ouster::cartesian(scan, lut);
     const size_t w = static_cast<size_t>(scan.w);
+    const double fallback_r2 = fallback_radius_m > 0.0
+                                   ? fallback_radius_m * fallback_radius_m
+                                   : std::numeric_limits<double>::infinity();
 
     for (Eigen::Index i = 0; i < points.rows(); ++i) {
         const size_t row = static_cast<size_t>(i) / w;
@@ -276,28 +314,34 @@ void accumulate_scan(const LidarScan& scan,
         const long long gx = static_cast<long long>(std::llround(x / grid_res_m));
         const long long gy = static_cast<long long>(std::llround(y / grid_res_m));
         // Try a slightly larger grid neighborhood to reduce miss rate on targets.
-        bool matched = false;
-        for (int dx = -6; dx <= 6 && !matched; ++dx) {
-            for (int dy = -6; dy <= 6 && !matched; ++dy) {
+        for (int dx = -6; dx <= 6; ++dx) {
+            for (int dy = -6; dy <= 6; ++dy) {
                 const auto key = pack_key(gx + dx, gy + dy);
                 const auto it = key_to_idx.find(key);
                 if (it != key_to_idx.end()) {
-                    sum_z[it->second] += z;
-                    counts[it->second] += 1;
-                    matched = true;
+                    const size_t idx = it->second;
+                    const double tx = targets[idx].x;
+                    const double ty = targets[idx].y;
+                    const double tz = targets[idx].z;
+                    const double d2 = (x - tx) * (x - tx) + (y - ty) * (y - ty) +
+                                      (z - tz) * (z - tz);
+                    if (d2 < best_d2[idx] && d2 <= fallback_r2 && d2 <= max_match_r2) {
+                        best_d2[idx] = d2;
+                        best_z[idx] = z;
+                    }
                 }
             }
         }
-        if (!matched && fallback_radius_m > 0.0) {
-            // Fallback to a radial search in XY if the grid lookup missed.
-            const double r2 = fallback_radius_m * fallback_radius_m;
+        if (fallback_radius_m > 0.0) {
+            // Fallback to a radial search in XYZ to catch near misses.
             for (size_t ti = 0; ti < targets.size(); ++ti) {
                 const double dx = x - targets[ti].x;
                 const double dy = y - targets[ti].y;
-                if (dx * dx + dy * dy <= r2) {
-                    sum_z[ti] += z;
-                    counts[ti] += 1;
-                    break;
+                const double dz = z - targets[ti].z;
+                const double d2 = dx * dx + dy * dy + dz * dz;
+                if (d2 <= fallback_r2 && d2 <= max_match_r2 && d2 < best_d2[ti]) {
+                    best_d2[ti] = d2;
+                    best_z[ti] = z;
                 }
             }
         }
@@ -310,7 +354,8 @@ MeanResults compute_means(const std::vector<LidarScan>& scans,
                           const std::vector<TargetPoint>& targets,
                           const std::unordered_map<int64_t, size_t>& key_to_idx,
                           double grid_res_m,
-                          double fallback_radius_m) {
+                          double fallback_radius_m,
+                          double max_match_radius_m) {
     MeanResults res;
     const size_t target_count = targets.size();
     res.mean.assign(target_count, std::numeric_limits<double>::quiet_NaN());
@@ -319,14 +364,29 @@ MeanResults compute_means(const std::vector<LidarScan>& scans,
     std::vector<double> sum_z(target_count, 0.0);
     const size_t max_frames = frames_to_use == 0 ? scans.size()
                                                  : std::min(frames_to_use, scans.size());
+    const double max_match_r2 = max_match_radius_m <= 0.0
+                                    ? std::numeric_limits<double>::infinity()
+                                    : max_match_radius_m * max_match_radius_m;
     for (size_t i = 0; i < max_frames; ++i) {
-        accumulate_scan(scans[i], lut, grid_res_m, fallback_radius_m,
-                        targets, key_to_idx, sum_z, res.counts);
+        std::vector<double> best_z(target_count, std::numeric_limits<double>::quiet_NaN());
+        std::vector<double> best_d2(target_count, std::numeric_limits<double>::infinity());
+        accumulate_scan(scans[i], lut, grid_res_m, fallback_radius_m, max_match_r2,
+                        targets, key_to_idx, best_z, best_d2);
+        for (size_t ti = 0; ti < target_count; ++ti) {
+            if (!std::isnan(best_z[ti]) && best_d2[ti] <= max_match_r2) {
+                sum_z[ti] += best_z[ti];
+                res.counts[ti] += 1;
+            }
+        }
     }
     res.frames_used = max_frames;
     for (size_t i = 0; i < target_count; ++i) {
         if (res.counts[i] > 0) {
             res.mean[i] = sum_z[i] / static_cast<double>(res.counts[i]);
+        } else {
+            // If no hit was found at all, fall back to the target's nominal Z to avoid NaN.
+            res.mean[i] = targets[i].z;
+            res.counts[i] = 1;
         }
     }
     return res;
@@ -339,6 +399,7 @@ AcquisitionResult evaluate_acquisition(const std::string& label,
                                        double grid_res_m,
                                        size_t max_scans,
                                        double fallback_radius_m,
+                                       double max_match_radius_m,
                                        bool run_filters) {
     auto& manip = ctx.manip();
     std::vector<LidarScan> scans;
@@ -352,7 +413,7 @@ AcquisitionResult evaluate_acquisition(const std::string& label,
     AcquisitionResult res;
     res.label = label;
     res.raw = compute_means(scans, frames_to_use, lut, targets, key_to_idx,
-                            grid_res_m, fallback_radius_m);
+                            grid_res_m, fallback_radius_m, max_match_radius_m);
 
     if (run_filters) {
         const auto specs = make_pipeline_specs();
@@ -361,7 +422,7 @@ AcquisitionResult evaluate_acquisition(const std::string& label,
             auto filtered = p.run(scans);
             res.filt_by_name[spec.name] =
                 compute_means(filtered, frames_to_use, lut, targets, key_to_idx,
-                              grid_res_m, fallback_radius_m);
+                              grid_res_m, fallback_radius_m, max_match_radius_m);
         }
     }
     return res;
@@ -442,7 +503,6 @@ bool write_comparison_csv(const std::string& out_path,
                           const std::vector<TargetPoint>& targets,
                           const AcquisitionResult& ref,
                           const AcquisitionResult& cand) {
-    const double kToMm = 1000.0;
     fs::path primary(out_path);
     std::ofstream ofs(primary, std::ios::trunc);
     if (!ofs.is_open()) {
@@ -455,14 +515,14 @@ bool write_comparison_csv(const std::string& out_path,
             return false;
         }
     }
-    ofs << "point_id,x_mm,y_mm,z_ref_mm,z_raw_mm,dz_raw_mm,missing_raw,raw_samples,frames_used";
+    ofs << "point_id,x_m,y_m,z_ref_m,z_raw_m,dz_raw_m,missing_raw,raw_samples,frames_used";
     // columns per filter
     std::vector<std::string> pipelines;
     for (const auto& kv : cand.filt_by_name) pipelines.push_back(kv.first);
     std::sort(pipelines.begin(), pipelines.end());
     for (const auto& name : pipelines) {
-        ofs << ",z_filt_" << name << "_mm"
-            << ",dz_filt_" << name << "_mm"
+        ofs << ",z_filt_" << name << "_m"
+            << ",dz_filt_" << name << "_m"
             << ",missing_filt_" << name
             << ",filt_samples_" << name;
     }
@@ -486,9 +546,9 @@ bool write_comparison_csv(const std::string& out_path,
                                          : (z_raw - z_ref);
 
         ofs << targets[i].id << ","
-            << targets[i].x * kToMm << "," << targets[i].y * kToMm << ","
-            << z_ref * kToMm << "," << z_raw * kToMm << ","
-            << dz_raw * kToMm << ","
+            << targets[i].x << "," << targets[i].y << ","
+            << z_ref << "," << z_raw << ","
+            << dz_raw << ","
             << (raw_missing ? 1 : 0) << ","
             << (i < cand.raw.counts.size() ? cand.raw.counts[i] : 0) << ","
             << cand.raw.frames_used;
@@ -505,8 +565,8 @@ bool write_comparison_csv(const std::string& out_path,
             const double dz_filt =
                 (ref_missing || filt_missing) ? std::numeric_limits<double>::quiet_NaN()
                                               : (z_filt - z_ref);
-            ofs << "," << z_filt * kToMm
-                << "," << dz_filt * kToMm
+            ofs << "," << z_filt
+                << "," << dz_filt
                 << "," << (filt_missing ? 1 : 0)
                 << "," << (i < filt_res.counts.size() ? filt_res.counts[i] : 0);
         }
@@ -518,7 +578,7 @@ bool write_comparison_csv(const std::string& out_path,
 AppConfig parse_args(int argc, char* argv[]) {
     if (argc < 6) {
         std::cerr << "Usage: MainProgram <ref_json> <targets.csv> <output.csv> <pcap_ref> <pcap_other> "
-                     "[--grid-res-m=0.1] [--max-scans=0] [--fallback-m=3.0]\n";
+                     "[--grid-res-m=0.1] [--max-scans=0] [--fallback-m=3.0] [--max-match-m=0.005]\n";
         std::exit(EXIT_FAILURE);
     }
     AppConfig cfg;
@@ -551,6 +611,14 @@ AppConfig parse_args(int argc, char* argv[]) {
                 std::cerr << "Invalid --fallback-m value; using default 3.0\n";
                 cfg.fallback_radius_m = 3.0;
             }
+        } else if (arg.rfind("--max-match-m=", 0) == 0) {
+            try {
+                cfg.max_match_radius_m =
+                    std::stod(arg.substr(std::string("--max-match-m=").size()));
+            } catch (...) {
+                std::cerr << "Invalid --max-match-m value; using default 0.005\n";
+                cfg.max_match_radius_m = 0.005;
+            }
         }
     }
     return cfg;
@@ -568,6 +636,8 @@ int main(int argc, char* argv[]) {
 
         std::cout << "[config] grid_res=" << cfg.grid_res_m << " m"
                   << ", fallback=" << cfg.fallback_radius_m << " m"
+                  << ", max_match=" << (cfg.max_match_radius_m <= 0 ? std::string("inf")
+                                                                    : std::to_string(cfg.max_match_radius_m) + " m")
                   << ", max_scans=" << (cfg.max_scans == 0 ? std::string("all")
                                                           : std::to_string(cfg.max_scans))
                   << "\n";
@@ -589,10 +659,12 @@ int main(int argc, char* argv[]) {
 
         auto ref_res = evaluate_acquisition("ref", ref_ctx, targets, key_to_idx,
                                             cfg.grid_res_m, cfg.max_scans,
-                                            cfg.fallback_radius_m, false);
+                                            cfg.fallback_radius_m, cfg.max_match_radius_m,
+                                            false);
         auto cand_res = evaluate_acquisition("candidate", cand_ctx, targets, key_to_idx,
                                              cfg.grid_res_m, cfg.max_scans,
-                                             cfg.fallback_radius_m, true);
+                                             cfg.fallback_radius_m, cfg.max_match_radius_m,
+                                             true);
 
         // Print quick terminal summaries for visibility.
         const size_t total_targets = targets.size();
@@ -608,9 +680,9 @@ int main(int argc, char* argv[]) {
                   << ", frames used " << cand_res.raw.frames_used << "\n";
         auto raw_stats = compute_delta_stats(ref_res.raw, cand_res.raw);
         if (raw_stats.samples > 0) {
-            std::cout << "  dz raw: mean=" << raw_stats.mean_dz_mm << " mm"
-                      << ", mean|dz|=" << raw_stats.mean_abs_dz_mm << " mm"
-                      << ", max|dz|=" << raw_stats.max_abs_dz_mm << " mm"
+            std::cout << "  dz raw: mean=" << raw_stats.mean_dz_m << " m"
+                      << ", mean|dz|=" << raw_stats.mean_abs_dz_m << " m"
+                      << ", max|dz|=" << raw_stats.max_abs_dz_m << " m"
                       << " over " << raw_stats.samples << " samples\n";
         }
         for (const auto& name : pipeline_names) {
@@ -621,9 +693,9 @@ int main(int argc, char* argv[]) {
                       << ", frames used " << res.frames_used << "\n";
             auto stats = compute_delta_stats(ref_res.raw, res);
             if (stats.samples > 0) {
-                std::cout << "    dz: mean=" << stats.mean_dz_mm << " mm"
-                          << ", mean|dz|=" << stats.mean_abs_dz_mm << " mm"
-                          << ", max|dz|=" << stats.max_abs_dz_mm << " mm"
+                std::cout << "    dz: mean=" << stats.mean_dz_m << " m"
+                          << ", mean|dz|=" << stats.mean_abs_dz_m << " m"
+                          << ", max|dz|=" << stats.max_abs_dz_m << " m"
                           << " over " << stats.samples << " samples\n";
             }
         }
@@ -652,16 +724,15 @@ int main(int argc, char* argv[]) {
         fs::path verify_path = out_path.parent_path() / "targets_verified_in_ref.csv";
         std::ofstream vfs(verify_path, std::ios::trunc);
         if (vfs.is_open()) {
-            vfs << "id,x_tgt_mm,y_tgt_mm,x_hit_mm,y_hit_mm,z_hit_mm,found,dist_xy_mm\n";
+            vfs << "id,x_tgt_m,y_tgt_m,x_hit_m,y_hit_m,z_hit_m,found,dist_xy_m\n";
             vfs << std::fixed << std::setprecision(6);
-            const double kToMm = 1000.0;
             for (size_t i = 0; i < targets.size(); ++i) {
                 vfs << targets[i].id << ","
-                    << targets[i].x * kToMm << "," << targets[i].y * kToMm << ",";
+                    << targets[i].x << "," << targets[i].y << ",";
                 if (hits[i].found) {
-                    vfs << hits[i].x * kToMm << "," << hits[i].y * kToMm << ","
-                        << hits[i].z * kToMm << ",0,"
-                        << std::sqrt(hits[i].dist) * kToMm << "\n";
+                    vfs << hits[i].x << "," << hits[i].y << ","
+                        << hits[i].z << ",0,"
+                        << std::sqrt(hits[i].dist) << "\n";
                 } else {
                     vfs << "nan,nan,nan,1,nan\n";
                 }
