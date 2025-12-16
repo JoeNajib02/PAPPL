@@ -19,7 +19,6 @@
 #include <iostream>
 #include <limits>
 #include <map>
-#include <optional>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -79,6 +78,12 @@ struct AppConfig {
     size_t max_scans = 0;
     double fallback_radius_m = 3.0;    // extra radial search if grid misses
     double max_match_radius_m = 0.005;  // 5 mm hard cap by default
+
+    // Manual rails mode: parse 12 whitespace-separated numbers (x1 y1 z1 x2 y2 z2) for two rails.
+    // Points are generated every point_step_m between the endpoints (start + regular samples + end).
+    std::string manual_rails = "";    // e.g. "-4.515 -11.886 -1.892 0.575 32.714 -2.072  -2.975 -11.986 -1.982 1.965 31.644 -1.962"
+    double point_step_m = 3.0;
+    bool dry_run = false; // if true, print generated targets and exit
 };
 
 DeltaStats compute_delta_stats(const MeanResults& ref, const MeanResults& cmp) {
@@ -204,6 +209,75 @@ std::vector<TargetPoint> load_targets(const std::string& path, double grid_res_m
     }
     return targets;
 }
+
+bool parse_manual_rails(const std::string& s, std::vector<double>& out) {
+    out.clear();
+    std::stringstream ss(s);
+    double v = 0.0;
+    while (ss >> v) out.push_back(v);
+    return out.size() == 12; // two rails x (x1 y1 z1 x2 y2 z2) each
+}
+
+std::vector<TargetPoint> generate_targets_from_manual_rails(const std::string& manual,
+                                                            double step_m,
+                                                            double grid_res_m) {
+    std::vector<TargetPoint> out;
+    std::vector<double> vals;
+    if (!parse_manual_rails(manual, vals)) {
+        std::cerr << "Failed to parse --manual-rails (expect 12 whitespace numbers)." << std::endl;
+        return out;
+    }
+
+    auto append_points = [&](const std::array<double,3>& a,
+                             const std::array<double,3>& b,
+                             const std::string& prefix) {
+        const double dx = b[0] - a[0];
+        const double dy = b[1] - a[1];
+        const double dz = b[2] - a[2];
+        const double dist = std::sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist <= 1e-9) return;
+
+        const double ux = dx / dist;
+        const double uy = dy / dist;
+        const double uz = dz / dist;
+
+        auto make_point = [&](double s, const std::string& label) {
+            TargetPoint t;
+            t.id = label;
+            t.x = a[0] + ux * s;
+            t.y = a[1] + uy * s;
+            t.z = a[2] + uz * s;
+            t.key = key_from_xy(t.x, t.y, grid_res_m);
+            out.push_back(t);
+        };
+
+        // Start
+        make_point(0.0, prefix + "_start");
+        // Regular 3 m spaced samples (or user-specified step)
+        const int steps = static_cast<int>(std::floor(dist / step_m));
+        for (int i = 1; i <= steps; ++i) {
+            const double s = step_m * static_cast<double>(i);
+            if (s >= dist - 1e-6) break;  // avoid duplicating the end point
+            const int label_m = static_cast<int>(std::llround(s));
+            make_point(s, prefix + "_" + std::to_string(label_m) + "m");
+        }
+        // End
+        make_point(dist, prefix + "_end");
+    };
+
+    // two rails: R1 (0..5), R2 (6..11)
+    std::array<double,3> r1a{vals[0], vals[1], vals[2]};
+    std::array<double,3> r1b{vals[3], vals[4], vals[5]};
+    std::array<double,3> r2a{vals[6], vals[7], vals[8]};
+    std::array<double,3> r2b{vals[9], vals[10], vals[11]};
+
+    append_points(r1a, r1b, "R1");
+    append_points(r2a, r2b, "R2");
+
+    std::cout << "Generated " << out.size() << " targets from manual rails." << std::endl;
+    return out;
+}
+
 
 TargetSummary summarize_targets(const MeanResults& res) {
     TargetSummary s{};
@@ -574,7 +648,8 @@ bool write_comparison_csv(const std::string& out_path,
 AppConfig parse_args(int argc, char* argv[]) {
     if (argc < 6) {
         std::cerr << "Usage: MainProgram <ref_json> <targets.csv> <output.csv> <pcap_ref> <pcap_other> "
-                     "[--grid-res-m=0.1] [--max-scans=0] [--fallback-m=3.0] [--max-match-m=0.005]\n";
+                     "[--grid-res-m=0.1] [--max-scans=0] [--fallback-m=3.0] [--max-match-m=0.005]\n"
+                  << "       (optional) --manual-rails=\"<12 nums>\" --point-step-m=3.0\n";
         std::exit(EXIT_FAILURE);
     }
     AppConfig cfg;
@@ -615,6 +690,18 @@ AppConfig parse_args(int argc, char* argv[]) {
                 std::cerr << "Invalid --max-match-m value; using default 0.005\n";
                 cfg.max_match_radius_m = 0.005;
             }
+        } else if (arg.rfind("--manual-rails=", 0) == 0) {
+            cfg.manual_rails = arg.substr(std::string("--manual-rails=").size());
+        } else if (arg.rfind("--point-step-m=", 0) == 0) {
+            try {
+                cfg.point_step_m = std::stod(arg.substr(std::string("--point-step-m=").size()));
+                if (cfg.point_step_m <= 0.0) cfg.point_step_m = 3.0;
+            } catch (...) {
+                std::cerr << "Invalid --point-step-m value; using default 3.0\n";
+                cfg.point_step_m = 3.0;
+            }
+        } else if (arg == "--dry-run") {
+            cfg.dry_run = true;
         }
     }
     return cfg;
@@ -624,10 +711,27 @@ int main(int argc, char* argv[]) {
     try {
         const AppConfig cfg = parse_args(argc, argv);
 
-        auto targets = load_targets(cfg.targets_path, cfg.grid_res_m);
-        if (targets.empty()) {
-            std::cerr << "No valid targets loaded from " << cfg.targets_path << "\n";
-            return EXIT_FAILURE;
+        std::vector<TargetPoint> targets;
+        if (!cfg.manual_rails.empty()) {
+            targets = generate_targets_from_manual_rails(cfg.manual_rails, cfg.point_step_m, cfg.grid_res_m);
+            if (targets.empty()) {
+                std::cerr << "No targets generated from --manual-rails. Exiting.\n";
+                return EXIT_FAILURE;
+            }
+        } else {
+            targets = load_targets(cfg.targets_path, cfg.grid_res_m);
+            if (targets.empty()) {
+                std::cerr << "No valid targets loaded from " << cfg.targets_path << "\n";
+                return EXIT_FAILURE;
+            }
+        }
+
+        if (cfg.dry_run) {
+            std::cout << "Dry-run: generated targets:\n";
+            for (const auto& t : targets) {
+                std::cout << t.id << "," << t.x << "," << t.y << "," << t.z << "\n";
+            }
+            return EXIT_SUCCESS;
         }
 
         std::cout << "[config] grid_res=" << cfg.grid_res_m << " m"

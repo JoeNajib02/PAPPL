@@ -83,6 +83,19 @@ Examples executed in order:
 6) Scan annotations (key/value)  
 7) Fast point counting demo  
 
+### MainProgram: comparing on 10 sampled rail points
+The `MainProgram` example can now build a set of 10 targets from profile CSVs and evaluate a candidate PCAP against a reference PCAP on those points. Example:
+
+```bash
+./build/Debug/MainProgram metadata.json targets.csv out.csv ref.pcap cand.pcap \
+  --manual-rails="-4.515 -11.886 -1.892 0.575 32.714 -2.072  -2.975 -11.986 -1.982 1.965 31.644 -1.962" \
+  --profiles-dir=./demo_sncf_profiles --points-per-rail=5
+```
+- `--manual-rails` expects 12 whitespace-separated numbers: the two endpoints (x,y,z) for each rail.
+- `--profiles-dir` is searched for a subfolder containing `rail_1_points.csv` and `rail_2_points.csv`.
+- `--points-per-rail` controls how many points are sampled along each rail (default 5 => 10 points).
+
+
 ## Use as a Library
 ```cpp
 #include "ouster-pcap-manipulator/pcap_data_manipulator.h"
