@@ -383,10 +383,6 @@ MeanResults compute_means(const std::vector<LidarScan>& scans,
     for (size_t i = 0; i < target_count; ++i) {
         if (res.counts[i] > 0) {
             res.mean[i] = sum_z[i] / static_cast<double>(res.counts[i]);
-        } else {
-            // If no hit was found at all, fall back to the target's nominal Z to avoid NaN.
-            res.mean[i] = targets[i].z;
-            res.counts[i] = 1;
         }
     }
     return res;
