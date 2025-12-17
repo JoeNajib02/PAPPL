@@ -26,6 +26,7 @@ compile_commands.json
 .DS_Store
 
 # Output files
+*.csv
 *.pcd
 *.pcap.out
 output/

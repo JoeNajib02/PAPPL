@@ -1,6 +1,0 @@
-label,frames_used,samples,mean_range_mm,std_range_mm,mean_abs_dev_mm,frame_mean_std_mm,valid_ratio
-baseline,60,116067,11963.3,19557.5,10947.1,257.412,0.472278
-staged_outlier_ema_planarity,60,110788,8596.79,3135.93,2194.57,273.155,0.450798
-temporal_median,60,120633,13204.8,22148.8,12684.2,229.072,0.490857
-kalman,60,116067,11965.8,19554.5,10947.9,257.216,0.472278
-huber,60,116067,11985.2,19530.7,10943.1,270.267,0.472278
