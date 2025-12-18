@@ -7,21 +7,26 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# Allow builds without Qt when only CLI tools are needed.
+option(ENABLE_QT "Build with Qt (GUI components)" OFF)
+
 if(WIN32)
     add_compile_definitions(NOMINMAX WIN32_LEAN_AND_MEAN _USE_MATH_DEFINES)
 endif()
 
 # ============================================================================
-# Find Qt5/Qt6 (desktop widgets)
+# Find Qt5/Qt6 (desktop widgets) – optional
 # ============================================================================
-find_package(Qt5 COMPONENTS Core Gui Widgets QUIET)
-if(NOT Qt5_FOUND)
-    find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
-    set(QT_PACKAGE_PREFIX Qt6)
-    message(STATUS "[PCAP Manipulator] Found Qt6")
-else()
-    set(QT_PACKAGE_PREFIX Qt5)
-    message(STATUS "[PCAP Manipulator] Found Qt5")
+if(ENABLE_QT)
+    find_package(Qt5 COMPONENTS Core Gui Widgets QUIET)
+    if(NOT Qt5_FOUND)
+        find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
+        set(QT_PACKAGE_PREFIX Qt6)
+        message(STATUS "[PCAP Manipulator] Found Qt6")
+    else()
+        set(QT_PACKAGE_PREFIX Qt5)
+        message(STATUS "[PCAP Manipulator] Found Qt5")
+    endif()
 endif()
 
 # ============================================================================
@@ -207,6 +212,21 @@ if(WIN32 AND PCAP_LIBRARIES)
     if(_pcap_clean)
         set(PCAP_LIBRARIES ${_pcap_clean})
     endif()
+    list(REMOVE_ITEM PCAP_LIBRARIES pcap wpcap)
+endif()
+
+if(WIN32 AND (NOT PCAP_LIBRARIES OR PCAP_LIBRARIES STREQUAL ""))
+    if(PCAP_LIBRARY_RELEASE)
+        set(PCAP_LIBRARIES ${PCAP_LIBRARY_RELEASE})
+    elseif(PCAP_LIBRARY_DEBUG)
+        set(PCAP_LIBRARIES ${PCAP_LIBRARY_DEBUG})
+    elseif(PCAP_LIBRARY)
+        set(PCAP_LIBRARIES ${PCAP_LIBRARY})
+    endif()
+endif()
+
+if(WIN32 AND PCAP_LIBRARIES)
+    set(PCAP_LIBRARIES "${PCAP_LIBRARIES}" CACHE STRING "libpcap libraries" FORCE)
 endif()
 
 find_package(libtins REQUIRED)
