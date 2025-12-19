@@ -34,3 +34,7 @@ output/
 __pycache__/
 *.pyc
 *.pyo
+
+# Others
+external/
+vcpkg/
