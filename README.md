@@ -70,6 +70,48 @@ cmake --build .
 cmake --build . --verbose
 ```
 
+## External data & toolchain folders
+To keep the Git history lean we now store the large SNCF datasets and the
+`vcpkg` toolchain **outside** of the repository.  By default we expect the
+following sibling directories next to the `PAPPL/` checkout:
+
+```
+raw_github/
+├─ PAPPL/                 # this repository
+├─ PAPPL_datasets/        # heavy demo data
+│   ├─ demo_sncf/
+│   ├─ demo_sncf 2/
+│   ├─ demo_sncf alias/
+│   └─ demo_sncf_profiles/
+└─ PAPPL_toolchains/
+    └─ vcpkg/
+```
+
+- **Datasets** – Use the helper env var below (or adapt to your own absolute
+  paths) when running `MainProgram`:
+
+  ```bash
+  export PAPPL_DATASETS_ROOT="$(cd .. && pwd)/PAPPL_datasets"
+  ./build/MainProgram \
+    "$PAPPL_DATASETS_ROOT/demo_sncf/2025-11-13_11-46-43_ref/build/OS-1-128_992425000327_1024x10_20251112_180355.json" \
+    "$PAPPL_DATASETS_ROOT/demo_sncf_profiles/demo_sncf/2025-11-13_12-23-15_5mm_6.5/x_y_zref_zraw.csv" \
+    out/output.csv \
+    "$PAPPL_DATASETS_ROOT/demo_sncf/2025-11-13_11-46-43_ref/build/OS-1-128_992425000327_1024x10_20251112_180355.pcap" \
+    "$PAPPL_DATASETS_ROOT/demo_sncf/2025-11-13_12-23-15_5mm_6.5/build/OS-1-128_992425000327_1024x10_20251112_184028.pcap"
+  ```
+
+- **vcpkg** – Keep the toolchain in `../PAPPL_toolchains/vcpkg` (or anywhere you
+  prefer) and point CMake to it via `VCPKG_ROOT` / `CMAKE_TOOLCHAIN_FILE`, e.g.:
+
+  ```bash
+  export VCPKG_ROOT="$(cd .. && pwd)/PAPPL_toolchains/vcpkg"
+  cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+  cmake --build build
+  ```
+
+Feel free to symlink other personal locations into those folders—the important
+part is simply keeping the heavy assets outside the Git checkout.
+
 ## Run the 7 Built-in Examples
 ```bash
 ./examples/pcap_manipulation_example <pcap_file> <json_file> [output_dir]
