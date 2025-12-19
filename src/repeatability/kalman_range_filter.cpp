@@ -35,7 +35,24 @@ void KalmanRangeFilter::apply(std::vector<ouster::LidarScan>& scans,
                 const size_t idx = r * w + c;
                 const uint32_t meas =
                     range(static_cast<int>(r), static_cast<int>(c));
-                if (meas == 0) continue;
+                
+                if (meas == 0) {
+                    // Temporal hole filling:
+                    // If we have a valid state from previous frames, propagate it.
+                    // This effectively interpolates (holds) the value over missing frames.
+                    if (initialized[idx]) {
+                        // Prediction step only (or simply hold value)
+                        // Ideally cov[idx] += process_noise_mm2_;
+                        // But for strict holding, we just use state[idx].
+                        // Let's degrade confidence slightly.
+                        cov[idx] += process_noise_mm2_;
+                        
+                        // Fill the hole in the current scan
+                        range(static_cast<int>(r), static_cast<int>(c)) =
+                            static_cast<uint32_t>(clamp_non_negative(state[idx]));
+                    }
+                    continue;
+                }
 
                 if (!initialized[idx]) {
                     state[idx] = static_cast<double>(meas);
@@ -58,4 +75,3 @@ void KalmanRangeFilter::apply(std::vector<ouster::LidarScan>& scans,
 
 }  // namespace sensor_utils
 }  // namespace ouster
-

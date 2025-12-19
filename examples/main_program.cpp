@@ -244,6 +244,81 @@ std::vector<TargetPoint> load_targets(const std::string& path, double grid_res_m
     return targets;
 }
 
+struct ProfilePoint {
+    double x = std::numeric_limits<double>::quiet_NaN();
+    double y = std::numeric_limits<double>::quiet_NaN();
+    double z = std::numeric_limits<double>::quiet_NaN();
+    double dist_xy = std::numeric_limits<double>::quiet_NaN();
+};
+
+std::unordered_map<std::string, ProfilePoint> load_profile_targets(
+    const std::string& profile_dir) {
+    std::unordered_map<std::string, ProfilePoint> profiles;
+    if (profile_dir.empty()) return profiles;
+    fs::path csv_path = fs::path(profile_dir) / "targets_from_profile.csv";
+    if (!fs::exists(csv_path)) {
+        std::cerr << "[profiles] targets_from_profile.csv not found at "
+                  << csv_path.string() << "\n";
+        return profiles;
+    }
+    std::ifstream ifs(csv_path);
+    if (!ifs.is_open()) {
+        std::cerr << "[profiles] failed to open " << csv_path.string() << "\n";
+        return profiles;
+    }
+    std::string line;
+    size_t line_no = 0;
+    while (std::getline(ifs, line)) {
+        line_no++;
+        line = trim(line);
+        if (line.empty() || line[0] == '#') continue;
+        std::stringstream ss(line);
+        std::vector<std::string> cols;
+        std::string item;
+        while (std::getline(ss, item, ',')) cols.push_back(trim(item));
+        if (cols.size() < 4) continue;
+        for (auto& c : cols) c = strip_quotes(c);
+        if (cols[0] == "id") continue;
+        ProfilePoint p{};
+        try {
+            p.x = std::stod(cols[1]);
+            p.y = std::stod(cols[2]);
+            p.z = std::stod(cols[3]);
+            if (cols.size() > 4) {
+                p.dist_xy = std::stod(cols[4]);
+            }
+            profiles[cols[0]] = p;
+        } catch (...) {
+            std::cerr << "[profiles] bad line " << line_no << " in "
+                      << csv_path.string() << ": " << line << "\n";
+        }
+    }
+    std::cout << "[profiles] loaded " << profiles.size()
+              << " entries from " << csv_path.string() << "\n";
+    return profiles;
+}
+
+void apply_profile_overrides(const std::string& profile_dir, double grid_res_m,
+                             std::vector<TargetPoint>& targets) {
+    const auto profiles = load_profile_targets(profile_dir);
+    if (profiles.empty()) return;
+    size_t applied = 0;
+    for (auto& t : targets) {
+        auto it = profiles.find(t.id);
+        if (it == profiles.end()) continue;
+        const auto& p = it->second;
+        t.x = p.x;
+        t.y = p.y;
+        if (std::isnan(t.z)) {
+            t.z = p.z;
+        }
+        t.key = key_from_xy(t.x, t.y, grid_res_m);
+        applied++;
+    }
+    std::cout << "[profiles] applied overrides to " << applied << "/"
+              << targets.size() << " targets\n";
+}
+
 bool parse_manual_rails(const std::string& s, std::vector<double>& out) {
     out.clear();
     std::stringstream ss(s);
@@ -386,10 +461,17 @@ std::vector<PipelineSpec> make_pipeline_specs() {
              p.add_filter(std::make_unique<ouster::sensor_utils::NormalGuidedSmoother>(7.5, 0.7));
              return p;
          }},
+        {"hole_filling", [](const sensor_info& info) {
+             RepeatabilityPipeline p(info);
+             // Fill small holes (1-2 pixels) using 3x3 kernel if 3 neighbors are valid.
+             p.add_filter(std::make_unique<ouster::sensor_utils::HoleFillingFilter>(3, 3));
+             return p;
+         }},
         {"full_chain", [](const sensor_info& info) {
              RepeatabilityPipeline p(info);
              p.add_filter(std::make_unique<ouster::sensor_utils::KalmanRangeFilter>(20000.0, 8000.0));
              p.add_filter(std::make_unique<ouster::sensor_utils::StatisticalOutlierFilter>(2.5, 8));
+             p.add_filter(std::make_unique<ouster::sensor_utils::HoleFillingFilter>(3, 3)); // Fill holes created by outlier removal
              p.add_filter(std::make_unique<ouster::sensor_utils::PlanaritySmoother>(3, 60, 0.35));
              p.add_filter(std::make_unique<ouster::sensor_utils::NormalGuidedSmoother>(7.5, 0.7));
              return p;
@@ -703,7 +785,7 @@ bool write_comparison_csv(const std::string& out_path,
             return false;
         }
     }
-    ofs << "point_id,x_m,y_m,z_ref_m,z_raw_m,dz_raw_m,missing_raw,raw_samples,frames_used";
+    ofs << "point_id,x_m,y_m,z_ref_m,z_raw_m,z_raw_actual_m,dz_raw_m,missing_raw,raw_samples,frames_used";
     // columns per filter
     std::vector<std::string> pipelines;
     for (const auto& kv : cand.filt_by_name) pipelines.push_back(kv.first);
@@ -727,12 +809,13 @@ bool write_comparison_csv(const std::string& out_path,
             std::isnan(cand.raw.mean[i]);
 
         bool ref_missing = ref_missing_orig;
-        bool raw_missing = raw_missing_orig;
+        bool raw_missing = raw_missing_orig; // Keeps track of PCAP miss
 
         double z_ref =
             ref_missing ? std::numeric_limits<double>::quiet_NaN() : ref.raw.mean[i];
         double z_raw =
             raw_missing ? std::numeric_limits<double>::quiet_NaN() : cand.raw.mean[i];
+        double z_raw_actual = z_raw; // Capture actual raw value before override
 
         if (targets[i].has_z_ref_override) {
             z_ref = targets[i].z_ref_override;
@@ -740,17 +823,21 @@ bool write_comparison_csv(const std::string& out_path,
         }
         if (targets[i].has_z_raw_override) {
             z_raw = targets[i].z_raw_override;
-            raw_missing = false;
+            // Do NOT set raw_missing = false here if we want to report PCAP misses.
+            // But 'dz_raw' calculation needs non-missing values.
+            // Let's create a separate flag for reporting vs calculation.
         }
+        
+        bool calc_missing = ref_missing || (raw_missing && !targets[i].has_z_raw_override);
         const double dz_raw =
-            (ref_missing || raw_missing) ? std::numeric_limits<double>::quiet_NaN()
-                                         : (z_raw - z_ref);
+            calc_missing ? std::numeric_limits<double>::quiet_NaN()
+                         : (z_raw - z_ref);
 
         ofs << targets[i].id << ","
             << targets[i].x_report << "," << targets[i].y_report << ","
-            << z_ref << "," << z_raw << ","
+            << z_ref << "," << z_raw << "," << z_raw_actual << ","
             << dz_raw << ","
-            << (raw_missing ? 1 : 0) << ","
+            << (raw_missing ? 1 : 0) << "," // Reports TRUE PCAP miss
             << (i < cand.raw.counts.size() ? cand.raw.counts[i] : 0) << ","
             << cand.raw.frames_used;
 
@@ -962,6 +1049,9 @@ int main(int argc, char* argv[]) {
             if (targets.empty()) {
                 std::cerr << "No valid targets loaded from " << cfg.targets_path << "\n";
                 return EXIT_FAILURE;
+            }
+            if (!cfg.profile_dir.empty()) {
+                apply_profile_overrides(cfg.profile_dir, cfg.grid_res_m, targets);
             }
         }
 

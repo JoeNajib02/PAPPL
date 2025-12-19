@@ -272,6 +272,7 @@ set(REPEATABILITY_SRC
     src/repeatability/planarity_smoother.cpp
     src/repeatability/kalman_range_filter.cpp
     src/repeatability/normal_guided_smoother.cpp
+    src/repeatability/hole_filling_filter.cpp
 )
 
 set(REPEATABILITY_HDR
@@ -285,6 +286,7 @@ set(REPEATABILITY_HDR
     src/repeatability/planarity_smoother.h
     src/repeatability/kalman_range_filter.h
     src/repeatability/normal_guided_smoother.h
+    src/repeatability/hole_filling_filter.h
 )
 
 add_library(pcap_data_manipulator STATIC

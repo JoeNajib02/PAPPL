@@ -11,6 +11,7 @@
 #include "repeatability/kalman_range_filter.h"
 #include "repeatability/normal_guided_smoother.h"
 #include "repeatability/planarity_smoother.h"
+#include "repeatability/hole_filling_filter.h"
 #include "repeatability/pipeline.h"
 #include "repeatability/repeatability_metrics.h"
 #include "repeatability/report_writer.h"
