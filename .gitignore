@@ -29,6 +29,10 @@ compile_commands.json
 *.pcd
 *.pcap.out
 output/
+*.csv
+*.json
+*.png
+!metadata.json
 
 # Python
 __pycache__/
@@ -41,3 +45,5 @@ vcpkg/
 demo_sncf/
 demo_sncf_profiles/
 demo_sncf 2/
+*.zip
+PAPPL_delivery*/

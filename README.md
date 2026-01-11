@@ -222,3 +222,42 @@ ouster-pcap-manipulator/
 - Official SDK: https://github.com/ouster-lidar/ouster_example
 - Generated docs: `docs/doxygen/html/index.html`
 - Source API reference: `src/pcap_data_manipulator.h`
+
+## PAPPL Reproduction Guide (Project V5)
+
+Use the following commands to rebuild the project and reproduce the full analysis results (CSV reports + Plots + Statistics).
+
+### 1. Build the Project
+```bash
+# Clean build directory
+rm -rf build && mkdir build
+cd build
+
+# Configure and Compile (Release mode for performance)
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build . --config Release --parallel 4
+
+# Return to root
+cd ..
+```
+
+### 2. Run the Repeatability Analysis
+This script executes `MainProgram` on all datasets (Ref vs 5mm, ini1, 20mm, ini2) using the *Normal Guided* and *Kalman* filters.
+```bash
+chmod +x run_usb_analysis.sh
+./run_usb_analysis.sh
+```
+*Note: This generates the `output_*.csv` files.*
+
+### 3. Generate Visualizations
+Create PNG plots comparing the different filters.
+```bash
+python3 plot_results.py
+```
+
+### 4. Generate Statistical Report
+Calculate the quantitative metrics (Mean Bias, StdDev, RMS) to identify the best filter.
+```bash
+python3 analyze_report.py
+```
+*Look for "🏆 BEST FILTER" in the output.*
